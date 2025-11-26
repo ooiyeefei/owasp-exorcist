@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "corruption-sensor": {
+      "command": "npx",
+      "args": ["ts-node", "src/mcp/corruption-server.ts"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": ["get_corruption_level"]
+    }
+  }
+}

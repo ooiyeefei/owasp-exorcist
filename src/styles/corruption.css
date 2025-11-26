@@ -1,0 +1,253 @@
+/**
+ * Corruption CSS Engine
+ * Three states: sanctified (0-20), possessed (21-70), damned (71-100)
+ */
+
+:root {
+  /* Default corruption variables */
+  --corruption-intensity: 0;
+  --corruption-blur: 0px;
+  --corruption-hue: 0deg;
+  --corruption-saturation: 100%;
+  --corruption-brightness: 100%;
+  --corruption-overlay-opacity: 0;
+  --corruption-glitch-amount: 0px;
+  --corruption-turbulence: 0.01;
+  --corruption-displacement: 0;
+}
+
+/* ============================================
+   SANCTIFIED STATE (0-20% corruption)
+   Clean, glassmorphism, heavenly
+   ============================================ */
+
+.app-container.sanctified {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Inter', sans-serif;
+  transition: all 0.5s ease;
+}
+
+.app-container.sanctified .dashboard {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(31, 38, 135, 0.15),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+  animation: heavenly-glow 3s ease-in-out infinite;
+}
+
+.app-container.sanctified .vulnerable-component {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+}
+
+@keyframes heavenly-glow {
+  0%, 100% { box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), 0 0 20px rgba(102, 126, 234, 0.2); }
+  50% { box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25), 0 0 40px rgba(102, 126, 234, 0.4); }
+}
+
+/* ============================================
+   POSSESSED STATE (21-70% corruption)
+   Jittery, chromatic aberration, flickering
+   ============================================ */
+
+.app-container.possessed {
+  background: linear-gradient(135deg, #4a0000 0%, #1a0000 100%);
+  font-family: 'Inter', sans-serif;
+  animation: jitter 0.1s infinite;
+  transition: all 0.5s ease;
+}
+
+.app-container.possessed .dashboard {
+  background: rgba(74, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 20px rgba(255, 0, 0, 0.2),
+    inset 0 0 20px rgba(139, 0, 0, 0.1);
+  animation: flicker 0.3s infinite;
+}
+
+.app-container.possessed .vulnerable-component {
+  background: rgba(139, 0, 0, 0.2);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 8px;
+  animation: component-jitter 0.2s infinite;
+}
+
+@keyframes jitter {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 2px); }
+  50% { transform: translate(2px, -2px); }
+  75% { transform: translate(-2px, -2px); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+  75% { opacity: 0.98; }
+}
+
+@keyframes component-jitter {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+  66% { transform: translate(1px, -1px) rotate(0.5deg); }
+}
+
+/* ============================================
+   DAMNED STATE (71-100% corruption)
+   Screen tearing, inverted, Zalgo text
+   ============================================ */
+
+.app-container.damned {
+  background: linear-gradient(135deg, #0a0000 0%, #1a0000 50%, #0a0000 100%);
+  font-family: 'Creepster', cursive;
+  filter: url(#corruption-filter);
+  animation: screen-tear 0.5s infinite, color-shift 2s infinite;
+  transition: all 0.5s ease;
+}
+
+.app-container.damned .dashboard {
+  background: rgba(20, 0, 0, 0.8);
+  border: 2px solid rgba(255, 0, 0, 0.5);
+  border-radius: 4px;
+  box-shadow: 
+    0 0 30px rgba(255, 0, 0, 0.4),
+    0 0 60px rgba(139, 0, 0, 0.3),
+    inset 0 0 30px rgba(0, 0, 0, 0.5);
+  animation: damned-pulse 1s infinite;
+}
+
+.app-container.damned .vulnerable-component {
+  background: rgba(80, 0, 0, 0.4);
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  border-radius: 4px;
+  animation: component-tear 0.3s infinite;
+  filter: url(#chromatic-aberration);
+}
+
+@keyframes screen-tear {
+  0% { clip-path: inset(0 0 0 0); }
+  10% { clip-path: inset(10% 0 0 0); transform: translate(5px, 0); }
+  20% { clip-path: inset(0 0 10% 0); transform: translate(-5px, 0); }
+  30% { clip-path: inset(0 10% 0 0); transform: translate(0, 3px); }
+  40% { clip-path: inset(0 0 0 10%); transform: translate(0, -3px); }
+  50% { clip-path: inset(5% 0 5% 0); transform: translate(3px, 3px); }
+  60% { clip-path: inset(0 5% 0 5%); transform: translate(-3px, -3px); }
+  70% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
+}
+
+@keyframes color-shift {
+  0%, 100% { filter: url(#corruption-filter) hue-rotate(0deg); }
+  25% { filter: url(#corruption-filter) hue-rotate(30deg); }
+  50% { filter: url(#corruption-filter) hue-rotate(-30deg); }
+  75% { filter: url(#corruption-filter) hue-rotate(15deg); }
+}
+
+@keyframes damned-pulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.4), 0 0 60px rgba(139, 0, 0, 0.3); }
+  50% { box-shadow: 0 0 50px rgba(255, 0, 0, 0.6), 0 0 100px rgba(139, 0, 0, 0.5); }
+}
+
+@keyframes component-tear {
+  0%, 100% { transform: translate(0, 0) skew(0deg); }
+  25% { transform: translate(-3px, 2px) skew(1deg); }
+  50% { transform: translate(3px, -2px) skew(-1deg); }
+  75% { transform: translate(-2px, -3px) skew(0.5deg); }
+}
+
+/* ============================================
+   COMMON STYLES
+   ============================================ */
+
+.app-container {
+  min-height: 100vh;
+  padding: 2rem;
+  transition: background 0.5s ease, filter 0.5s ease;
+}
+
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  transition: all 0.5s ease;
+}
+
+.vulnerable-component {
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: all 0.3s ease;
+}
+
+.vulnerable-component h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.vulnerable-component .warning {
+  color: #ff6b6b;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.vulnerable-component button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.vulnerable-component input,
+.vulnerable-component textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font-family: inherit;
+  margin-top: 0.5rem;
+}
+
+.exposed-secret {
+  display: block;
+  padding: 0.5rem;
+  background: rgba(255, 0, 0, 0.2);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 4px;
+  word-break: break-all;
+  font-family: monospace;
+}
+
+.rendered-html {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  min-height: 50px;
+}
+
+.result, .error {
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.result {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+.error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff6b6b;
+}

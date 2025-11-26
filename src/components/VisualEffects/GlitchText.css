@@ -1,0 +1,114 @@
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  transition: font-family 0.3s ease;
+}
+
+/* Sanctified state - clean and smooth */
+.glitch-sanctified {
+  color: #1a1a2e;
+  text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Possessed state - subtle glitch */
+.glitch-possessed {
+  color: #4a0000;
+  animation: glitch-subtle 0.5s infinite;
+}
+
+.glitch-possessed::before,
+.glitch-possessed::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch-possessed::before {
+  color: #ff0000;
+  animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.glitch-possessed::after {
+  color: #00ffff;
+  animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+/* Damned state - intense glitch */
+.glitch-damned {
+  color: #8b0000;
+  animation: glitch-intense 0.1s infinite;
+  text-shadow: 
+    2px 0 #ff0000,
+    -2px 0 #00ffff,
+    0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.glitch-damned::before,
+.glitch-damned::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-damned::before {
+  color: #ff0000;
+  animation: glitch-anim-1 0.1s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  transform: translate(-3px, -2px);
+}
+
+.glitch-damned::after {
+  color: #00ffff;
+  animation: glitch-anim-2 0.1s infinite linear alternate-reverse;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  transform: translate(3px, 2px);
+}
+
+@keyframes glitch-subtle {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+}
+
+@keyframes glitch-intense {
+  0% { transform: translate(0) skew(0deg); }
+  10% { transform: translate(-3px, 2px) skew(2deg); }
+  20% { transform: translate(3px, -2px) skew(-2deg); }
+  30% { transform: translate(-2px, -3px) skew(1deg); }
+  40% { transform: translate(2px, 3px) skew(-1deg); }
+  50% { transform: translate(-3px, -2px) skew(2deg); }
+  60% { transform: translate(3px, 2px) skew(-2deg); }
+  70% { transform: translate(-2px, 3px) skew(1deg); }
+  80% { transform: translate(2px, -3px) skew(-1deg); }
+  90% { transform: translate(-3px, 2px) skew(2deg); }
+  100% { transform: translate(0) skew(0deg); }
+}
+
+@keyframes glitch-anim-1 {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { transform: translate(0); }
+  20% { transform: translate(3px, -3px); }
+  40% { transform: translate(3px, 3px); }
+  60% { transform: translate(-3px, -3px); }
+  80% { transform: translate(-3px, 3px); }
+  100% { transform: translate(0); }
+}

@@ -1,0 +1,32 @@
+{
+  "corruptionLevel": 100,
+  "vulnerabilities": [
+    {
+      "type": "prompt-injection",
+      "file": "InjectionComponent.tsx",
+      "pattern": "/dangerouslySetInnerHTML/gi",
+      "description": "Unsafe HTML rendering detected (dangerouslySetInnerHTML)",
+      "severity": "high",
+      "count": 3
+    },
+    {
+      "type": "hardcoded-secret",
+      "file": "LeakyComponent.tsx",
+      "pattern": "/sk-[a-zA-Z0-9]{20,}/gi",
+      "description": "Hardcoded API key or secret detected",
+      "severity": "high",
+      "count": 1
+    },
+    {
+      "type": "xss",
+      "file": "UnsafeComponent.tsx",
+      "pattern": "/eval\\s*\\(/gi",
+      "description": "XSS vulnerability pattern detected (eval)",
+      "severity": "high",
+      "count": 3
+    }
+  ],
+  "timestamp": 1764132715169,
+  "lastScan": "2025-11-26T04:51:55.169Z",
+  "scanDuration": 0
+}

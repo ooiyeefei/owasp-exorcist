@@ -1,0 +1,212 @@
+.dashboard {
+  color: #fff;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.dashboard-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Corruption Meter */
+.corruption-meter {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.meter-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.meter-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.meter-bar {
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    #22c55e 0%, 
+    #eab308 33%, 
+    #f97316 66%, 
+    #dc2626 100%
+  );
+  border-radius: 12px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.meter-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  animation: meter-shine 2s infinite;
+}
+
+@keyframes meter-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.meter-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* Vulnerabilities Section */
+.vulnerabilities-section {
+  margin-bottom: 2rem;
+}
+
+.vulnerabilities-section h2 {
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+}
+
+.vulnerability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.vulnerability-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+.vulnerability-item.active {
+  border-left-color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.vulnerability-item.fixed {
+  border-left-color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.vuln-icon {
+  font-size: 1.5rem;
+}
+
+.vuln-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.vuln-status {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Components Section */
+.components-section {
+  margin-bottom: 2rem;
+}
+
+.components-section h2 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.section-description {
+  opacity: 0.8;
+  margin: 0 0 1.5rem 0;
+}
+
+.components-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Instructions Section */
+.instructions-section {
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.instructions-section h2 {
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+}
+
+.instructions-list {
+  margin: 0 0 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.instructions-list li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.kiro-tip {
+  margin: 0;
+  padding: 1rem;
+  background: rgba(102, 126, 234, 0.2);
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+/* Connection Warning */
+.connection-warning {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.75rem 1.5rem;
+  background: rgba(234, 179, 8, 0.9);
+  color: #000;
+  border-radius: 8px;
+  font-weight: 500;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}

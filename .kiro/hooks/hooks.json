@@ -1,0 +1,18 @@
+{
+  "hooks": [
+    {
+      "id": "measure-corruption",
+      "name": "The Ritual - Corruption Scanner",
+      "description": "Scans vulnerable components for OWASP security vulnerabilities and updates corruption state",
+      "trigger": {
+        "type": "onFileSave",
+        "filePattern": "src/components/vulnerable/**/*.tsx"
+      },
+      "action": {
+        "type": "script",
+        "command": "node .kiro/hooks/measure-corruption.cjs"
+      },
+      "enabled": true
+    }
+  ]
+}
