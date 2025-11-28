@@ -3,7 +3,8 @@
  * Polls corruption-state.json and injects CSS variables
  */
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import type { ReactNode } from 'react';
 
 interface Vulnerability {
   type: 'prompt-injection' | 'hardcoded-secret' | 'xss';
@@ -66,10 +67,13 @@ export function CorruptionProvider({ children, pollInterval = 1000 }: Corruption
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'disconnected' | 'error'>('disconnected');
   const [backoffDelay, setBackoffDelay] = useState(pollInterval);
+  const [consecutiveErrors, setConsecutiveErrors] = useState(0);
 
   const fetchCorruptionState = useCallback(async () => {
     try {
-      const response = await fetch('/corruption-state.json', {
+      // Add timestamp to prevent caching
+      const timestamp = Date.now();
+      const response = await fetch(`/corruption-state.json?t=${timestamp}`, {
         cache: 'no-store',
         headers: { 'Cache-Control': 'no-cache' }
       });
@@ -85,11 +89,19 @@ export function CorruptionProvider({ children, pollInterval = 1000 }: Corruption
       setLastUpdate(new Date());
       setConnectionStatus('connected');
       setBackoffDelay(pollInterval); // Reset backoff on success
+      setConsecutiveErrors(0); // Reset error count on success
       injectCSSVariables(state.corruptionLevel);
       
     } catch (error) {
       console.warn('Failed to fetch corruption state:', error);
-      setConnectionStatus('error');
+      const newErrorCount = consecutiveErrors + 1;
+      setConsecutiveErrors(newErrorCount);
+      
+      // Only show error after 3 consecutive failures
+      if (newErrorCount >= 3) {
+        setConnectionStatus('error');
+      }
+      
       // Exponential backoff: 1s, 2s, 4s, max 8s
       setBackoffDelay(prev => Math.min(prev * 2, 8000));
     } finally {

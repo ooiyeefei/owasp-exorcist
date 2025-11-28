@@ -622,6 +622,242 @@ interface DashboardProps {
 └─────────────────────────────────────────────────────┘
 ```
 
+### 9. Exorcism Guide Panel
+
+**Location**: `src/components/ExorcismGuide.tsx`
+
+**Purpose**: Fixed right-side panel providing step-by-step instructions for performing the digital exorcism.
+
+**Interface**:
+```typescript
+interface ExorcismGuideProps {
+  corruptionLevel: number;
+  vulnerabilities: Vulnerability[];
+}
+
+interface GuideStep {
+  id: number;
+  title: string;
+  description: string;
+  isComplete: (level: number, vulns: Vulnerability[]) => boolean;
+  isActive: (level: number, vulns: Vulnerability[]) => boolean;
+}
+```
+
+**Layout**:
+```
+┌─────────────────────────────────────┐
+│  🔮 EXORCISM GUIDE                  │
+│─────────────────────────────────────│
+│                                     │
+│  ✅ 1. Enter the Nightmare          │
+│     Click the button to begin       │
+│                                     │
+│  ▶️ 2. Identify Corruption          │
+│     Check the corruption level      │
+│     Current: 67%                    │
+│                                     │
+│  ⏸️ 3. Fix Hardcoded Secrets        │
+│     Open LeakyComponent.tsx         │
+│     Replace API key with env var    │
+│                                     │
+│  ⏸️ 4. Fix Prompt Injection         │
+│     Open InjectionComponent.tsx     │
+│     Remove dangerouslySetInnerHTML  │
+│                                     │
+│  ⏸️ 5. Fix XSS Vulnerability        │
+│     Open UnsafeComponent.tsx        │
+│     Remove eval() calls             │
+│                                     │
+│  ⏸️ 6. Achieve Sanctification       │
+│     Reach 0% corruption             │
+│     Witness the healing             │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Implementation Details**:
+```typescript
+const GUIDE_STEPS: GuideStep[] = [
+  {
+    id: 1,
+    title: "Enter the Nightmare",
+    description: "Click 'ENTER THE NIGHTMARE' to begin the exorcism",
+    isComplete: (level) => level >= 0, // Always complete after entering
+    isActive: (level) => false // Never active (completed at start)
+  },
+  {
+    id: 2,
+    title: "Identify Corruption",
+    description: "Check the corruption level and active vulnerabilities",
+    isComplete: (level) => level < 100,
+    isActive: (level) => level === 100
+  },
+  {
+    id: 3,
+    title: "Fix Hardcoded Secrets",
+    description: "Open LeakyComponent.tsx and replace hardcoded API keys with environment variables",
+    isComplete: (level, vulns) => !vulns.some(v => v.type === 'hardcoded-secret'),
+    isActive: (level, vulns) => level > 0 && vulns.some(v => v.type === 'hardcoded-secret')
+  },
+  {
+    id: 4,
+    title: "Fix Prompt Injection",
+    description: "Open InjectionComponent.tsx and remove dangerouslySetInnerHTML",
+    isComplete: (level, vulns) => !vulns.some(v => v.type === 'prompt-injection'),
+    isActive: (level, vulns) => level > 0 && vulns.some(v => v.type === 'prompt-injection')
+  },
+  {
+    id: 5,
+    title: "Fix XSS Vulnerability",
+    description: "Open UnsafeComponent.tsx and remove eval() calls",
+    isComplete: (level, vulns) => !vulns.some(v => v.type === 'xss'),
+    isActive: (level, vulns) => level > 0 && vulns.some(v => v.type === 'xss')
+  },
+  {
+    id: 6,
+    title: "Achieve Sanctification",
+    description: "Reach 0% corruption and witness the complete healing",
+    isComplete: (level) => level === 0,
+    isActive: (level) => level > 0 && level < 20
+  }
+];
+
+export function ExorcismGuide({ corruptionLevel, vulnerabilities }: ExorcismGuideProps) {
+  return (
+    <div className="exorcism-guide">
+      <h2 className="guide-title">🔮 EXORCISM GUIDE</h2>
+      <div className="guide-steps">
+        {GUIDE_STEPS.map(step => {
+          const isComplete = step.isComplete(corruptionLevel, vulnerabilities);
+          const isActive = step.isActive(corruptionLevel, vulnerabilities);
+          
+          return (
+            <div 
+              key={step.id}
+              className={`guide-step ${isComplete ? 'complete' : ''} ${isActive ? 'active' : ''}`}
+            >
+              <div className="step-indicator">
+                {isComplete ? '✅' : isActive ? '▶️' : '⏸️'}
+              </div>
+              <div className="step-content">
+                <h3 className="step-title">{step.id}. {step.title}</h3>
+                <p className="step-description">{step.description}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+```
+
+**Styling**:
+```css
+/* ExorcismGuide.css */
+.exorcism-guide {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 320px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+  z-index: 100;
+  transition: background 0.5s ease;
+}
+
+/* Corruption-based styling */
+.exorcism-guide[data-corruption="sanctified"] {
+  background: rgba(102, 126, 234, 0.15);
+  border-left-color: rgba(102, 126, 234, 0.5);
+}
+
+.exorcism-guide[data-corruption="damned"] {
+  background: rgba(139, 0, 0, 0.3);
+  border-left-color: rgba(220, 38, 38, 0.8);
+}
+
+.guide-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-align: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 1rem;
+}
+
+.guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.guide-step {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.guide-step.active {
+  background: rgba(102, 126, 234, 0.2);
+  border: 2px solid rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+.guide-step.complete {
+  opacity: 0.6;
+}
+
+.step-indicator {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.step-description {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+}
+
+/* Scrollbar styling */
+.exorcism-guide::-webkit-scrollbar {
+  width: 8px;
+}
+
+.exorcism-guide::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.exorcism-guide::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.exorcism-guide::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+```
+
 ## Data Models
 
 ### CorruptionState (JSON File Schema)

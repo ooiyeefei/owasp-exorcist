@@ -1,6 +1,7 @@
 /**
- * Corruption CSS Engine
+ * Corruption CSS Engine - READABLE VERSION
  * Three states: sanctified (0-20), possessed (21-70), damned (71-100)
+ * REDUCED EFFECTS FOR READABILITY
  */
 
 :root {
@@ -18,7 +19,7 @@
 
 /* ============================================
    SANCTIFIED STATE (0-20% corruption)
-   Clean, glassmorphism, heavenly
+   Clean, bright, heavenly
    ============================================ */
 
 .app-container.sanctified {
@@ -28,137 +29,64 @@
 }
 
 .app-container.sanctified .dashboard {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   box-shadow: 
-    0 8px 32px rgba(31, 38, 135, 0.15),
-    inset 0 0 30px rgba(255, 255, 255, 0.1);
-  animation: heavenly-glow 3s ease-in-out infinite;
-}
-
-.app-container.sanctified .vulnerable-component {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
-}
-
-@keyframes heavenly-glow {
-  0%, 100% { box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), 0 0 20px rgba(102, 126, 234, 0.2); }
-  50% { box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25), 0 0 40px rgba(102, 126, 234, 0.4); }
+    0 8px 32px rgba(102, 126, 234, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.05);
 }
 
 /* ============================================
    POSSESSED STATE (21-70% corruption)
-   Jittery, chromatic aberration, flickering
+   Spooky purple/orange Halloween vibes
    ============================================ */
 
 .app-container.possessed {
-  background: linear-gradient(135deg, #4a0000 0%, #1a0000 100%);
+  background: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 100%);
   font-family: 'Inter', sans-serif;
-  animation: jitter 0.1s infinite;
   transition: all 0.5s ease;
 }
 
 .app-container.possessed .dashboard {
-  background: rgba(74, 0, 0, 0.4);
+  background: rgba(45, 27, 78, 0.7);
   backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 0, 0, 0.3);
+  border: 1px solid rgba(168, 85, 247, 0.4);
   border-radius: 12px;
   box-shadow: 
-    0 0 20px rgba(255, 0, 0, 0.2),
-    inset 0 0 20px rgba(139, 0, 0, 0.1);
-  animation: flicker 0.3s infinite;
-}
-
-.app-container.possessed .vulnerable-component {
-  background: rgba(139, 0, 0, 0.2);
-  border: 1px solid rgba(255, 0, 0, 0.3);
-  border-radius: 8px;
-  animation: component-jitter 0.2s infinite;
-}
-
-@keyframes jitter {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(-2px, 2px); }
-  50% { transform: translate(2px, -2px); }
-  75% { transform: translate(-2px, -2px); }
-}
-
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.95; }
-  75% { opacity: 0.98; }
-}
-
-@keyframes component-jitter {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(-1px, 1px) rotate(-0.5deg); }
-  66% { transform: translate(1px, -1px) rotate(0.5deg); }
+    0 0 20px rgba(168, 85, 247, 0.3),
+    inset 0 0 20px rgba(139, 92, 246, 0.1);
 }
 
 /* ============================================
    DAMNED STATE (71-100% corruption)
-   Screen tearing, inverted, Zalgo text
+   Spooky but readable - Halloween theme
    ============================================ */
 
 .app-container.damned {
-  background: linear-gradient(135deg, #0a0000 0%, #1a0000 50%, #0a0000 100%);
-  font-family: 'Creepster', cursive;
-  filter: url(#corruption-filter);
-  animation: screen-tear 0.5s infinite, color-shift 2s infinite;
+  background: linear-gradient(135deg, #1a0a2e 0%, #0f0519 50%, #1a0a2e 100%);
+  font-family: 'Inter', sans-serif;
   transition: all 0.5s ease;
+  animation: subtle-shake 0.5s infinite;
 }
 
 .app-container.damned .dashboard {
-  background: rgba(20, 0, 0, 0.8);
-  border: 2px solid rgba(255, 0, 0, 0.5);
-  border-radius: 4px;
+  background: rgba(26, 10, 46, 0.85);
+  border: 2px solid rgba(249, 115, 22, 0.5);
+  border-radius: 8px;
   box-shadow: 
-    0 0 30px rgba(255, 0, 0, 0.4),
-    0 0 60px rgba(139, 0, 0, 0.3),
+    0 0 30px rgba(249, 115, 22, 0.4),
+    0 0 60px rgba(168, 85, 247, 0.3),
     inset 0 0 30px rgba(0, 0, 0, 0.5);
-  animation: damned-pulse 1s infinite;
 }
 
-.app-container.damned .vulnerable-component {
-  background: rgba(80, 0, 0, 0.4);
-  border: 1px solid rgba(255, 0, 0, 0.5);
-  border-radius: 4px;
-  animation: component-tear 0.3s infinite;
-  filter: url(#chromatic-aberration);
-}
-
-@keyframes screen-tear {
-  0% { clip-path: inset(0 0 0 0); }
-  10% { clip-path: inset(10% 0 0 0); transform: translate(5px, 0); }
-  20% { clip-path: inset(0 0 10% 0); transform: translate(-5px, 0); }
-  30% { clip-path: inset(0 10% 0 0); transform: translate(0, 3px); }
-  40% { clip-path: inset(0 0 0 10%); transform: translate(0, -3px); }
-  50% { clip-path: inset(5% 0 5% 0); transform: translate(3px, 3px); }
-  60% { clip-path: inset(0 5% 0 5%); transform: translate(-3px, -3px); }
-  70% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
-  100% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
-}
-
-@keyframes color-shift {
-  0%, 100% { filter: url(#corruption-filter) hue-rotate(0deg); }
-  25% { filter: url(#corruption-filter) hue-rotate(30deg); }
-  50% { filter: url(#corruption-filter) hue-rotate(-30deg); }
-  75% { filter: url(#corruption-filter) hue-rotate(15deg); }
-}
-
-@keyframes damned-pulse {
-  0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.4), 0 0 60px rgba(139, 0, 0, 0.3); }
-  50% { box-shadow: 0 0 50px rgba(255, 0, 0, 0.6), 0 0 100px rgba(139, 0, 0, 0.5); }
-}
-
-@keyframes component-tear {
-  0%, 100% { transform: translate(0, 0) skew(0deg); }
-  25% { transform: translate(-3px, 2px) skew(1deg); }
-  50% { transform: translate(3px, -2px) skew(-1deg); }
-  75% { transform: translate(-2px, -3px) skew(0.5deg); }
+/* Subtle shake animation */
+@keyframes subtle-shake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -1px); }
 }
 
 /* ============================================
@@ -182,11 +110,15 @@
   padding: 1.5rem;
   margin: 1rem 0;
   transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
 }
 
 .vulnerable-component h3 {
   margin-top: 0;
   margin-bottom: 1rem;
+  font-family: 'Inter', sans-serif;
 }
 
 .vulnerable-component .warning {
@@ -197,11 +129,18 @@
 
 .vulnerable-component button {
   padding: 0.5rem 1rem;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.vulnerable-component button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .vulnerable-component input,

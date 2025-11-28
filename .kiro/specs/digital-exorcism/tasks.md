@@ -140,7 +140,34 @@
   - Add timestamp and lastScan fields with current ISO timestamp
   - _Requirements: 4.5, 8.3_
 
-- [x] 15. Test sanctification workflow end-to-end (The Loop)
+- [ ] 15. Create Exorcism Guide Panel
+- [ ] 15.1 Create ExorcismGuide component
+  - Create `src/components/ExorcismGuide.tsx` with fixed right-side positioning
+  - Define GUIDE_STEPS array with 6 steps (Enter Nightmare, Identify Corruption, Fix Secrets, Fix Injection, Fix XSS, Achieve Sanctification)
+  - Implement step status logic using `isComplete` and `isActive` functions based on corruption level and vulnerabilities
+  - Accept `corruptionLevel` and `vulnerabilities` props from CorruptionContext
+  - Render step list with visual indicators (✅ complete, ▶️ active, ⏸️ pending)
+  - _Requirements: 9.1, 9.2, 9.5_
+
+- [ ] 15.2 Style the guide panel
+  - Create `src/components/ExorcismGuide.css` with fixed positioning at right edge
+  - Set width to 320px with full viewport height
+  - Apply semi-transparent dark background with backdrop blur
+  - Style active steps with blue glow and border
+  - Style completed steps with reduced opacity
+  - Add smooth transitions for background and border colors
+  - Implement custom scrollbar styling for overflow content
+  - Apply corruption-based styling (sanctified = blue tint, damned = red tint)
+  - _Requirements: 9.1, 9.3, 9.4_
+
+- [ ] 15.3 Integrate guide panel into Dashboard
+  - Import ExorcismGuide component in Dashboard.tsx
+  - Pass corruptionLevel and vulnerabilities from useCorruption hook
+  - Position guide panel alongside main dashboard content
+  - Ensure guide remains visible at all corruption levels
+  - _Requirements: 9.1, 9.3_
+
+- [ ] 16. Test sanctification workflow end-to-end (The Loop)
   - Start with corruption level 100 (all vulnerabilities present)
   - Save LeakyComponent.tsx and verify `public/corruption-state.json` updates timestamp
   - Verify Dashboard UI updates with new corruption level (visuals change)
@@ -153,14 +180,14 @@
   - Verify final state reaches 0% corruption with pristine glassmorphism visuals
   - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [x]* 16. Create demo preparation script (CRITICAL for resets)
+- [x]* 17. Create demo preparation script (CRITICAL for resets)
   - Create `scripts/reset-demo.sh` bash script
   - Add command to reset code to vulnerable state: `git checkout src/components/vulnerable/`
   - Add command to reset state file: `echo '{"corruptionLevel": 100, "vulnerabilities": [...]}' > public/corruption-state.json`
   - Make script executable with `chmod +x`
   - _Requirements: Demo Support_
 
-- [x]* 17. Document the project
+- [x]* 18. Document the project
   - Create `README.md` explaining the "Haunted Code" concept
   - Document setup instructions and dependencies
   - Document the 3-minute demo flow with timestamps (0:00 Enter Nightmare, 0:30 MCP test, 1:30 Fix code, 2:30 Sanctified)

@@ -40,8 +40,13 @@ function scanFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
     const fileName = path.basename(filePath);
     
+    // Remove comments to avoid false positives
+    const codeOnly = content
+      .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
+      .replace(/\/\/.*/g, ''); // Remove line comments
+    
     for (const [key, pattern] of Object.entries(PATTERNS)) {
-      const matches = content.match(pattern.regex);
+      const matches = codeOnly.match(pattern.regex);
       if (matches && matches.length > 0) {
         vulnerabilities.push({
           type: pattern.type,

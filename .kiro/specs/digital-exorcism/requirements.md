@@ -113,3 +113,15 @@
 3. THE Corruption State File SHALL contain a JSON object with at minimum a corruptionLevel numeric property and a vulnerabilities array listing detected issues.
 4. WHEN The Ritual cannot access or analyze files, THE Corruption Engine SHALL maintain the last known corruption level and display a connection status indicator.
 5. THE Corruption Engine SHALL implement exponential backoff for polling if the Corruption State File is not found, retrying at 1000ms, 2000ms, 4000ms intervals.
+
+### Requirement 9: Exorcism Guide Panel (Right-Side Instructions)
+
+**User Story:** As a user, I want clear step-by-step instructions anchored at the right side of the UI, so that I understand how to perform the digital exorcism and fix vulnerabilities.
+
+#### Acceptance Criteria
+
+1. THE Visual Effect Layer SHALL display a fixed-position guide panel anchored to the right edge of the viewport.
+2. THE guide panel SHALL contain numbered step-by-step instructions for performing the exorcism including opening vulnerable files, using Kiro to fix issues, and observing the healing effects.
+3. THE guide panel SHALL remain visible and accessible at all times during the application session.
+4. THE guide panel SHALL use clear typography with sufficient contrast against the background regardless of corruption level.
+5. THE guide panel SHALL include visual indicators showing which step the user is currently on based on the corruption level and detected vulnerabilities.

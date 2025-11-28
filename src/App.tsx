@@ -9,6 +9,7 @@ import { SeanceOverlay } from './components/SeanceOverlay';
 import { Dashboard } from './components/Dashboard';
 import { CorruptionFilter } from './components/VisualEffects/CorruptionFilter';
 import { CorruptionOverlay } from './components/VisualEffects/CorruptionOverlay';
+import { AudioControls } from './components/AudioControls';
 import { useAudioCorruption } from './hooks/useAudioCorruption';
 import './styles/corruption.css';
 import './App.css';
@@ -16,7 +17,15 @@ import './App.css';
 function AppContent() {
   const [hasStarted, setHasStarted] = useState(false);
   const { corruptionLevel, corruptionState } = useCorruption();
-  const { initAudio } = useAudioCorruption(corruptionLevel, { enabled: true, volume: 0.2 });
+  const { 
+    initAudio, 
+    isMuted, 
+    currentDamnedTrack, 
+    currentSanctifiedTrack,
+    setMuted,
+    switchDamnedTrack,
+    switchSanctifiedTrack
+  } = useAudioCorruption(corruptionLevel, { enabled: true, volume: 0.2 });
 
   const handleStart = () => {
     initAudio();
@@ -31,6 +40,15 @@ function AppContent() {
     <div className={`app-container ${corruptionState}`} data-corruption={corruptionState}>
       <CorruptionFilter corruptionLevel={corruptionLevel} />
       <CorruptionOverlay />
+      <AudioControls
+        isMuted={isMuted}
+        currentDamnedTrack={currentDamnedTrack}
+        currentSanctifiedTrack={currentSanctifiedTrack}
+        corruptionLevel={corruptionLevel}
+        onMuteToggle={() => setMuted(!isMuted)}
+        onDamnedTrackChange={switchDamnedTrack}
+        onSanctifiedTrackChange={switchSanctifiedTrack}
+      />
       <Dashboard />
     </div>
   );

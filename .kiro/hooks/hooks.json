@@ -13,6 +13,61 @@
         "command": "node .kiro/hooks/measure-corruption.cjs"
       },
       "enabled": true
+    },
+    {
+      "id": "auto-commit-fix",
+      "name": "The Sanctification Recorder",
+      "description": "Automatically commits security fixes with descriptive messages when vulnerabilities are removed",
+      "trigger": {
+        "type": "onFileSave",
+        "filePattern": "src/components/vulnerable/**/*.tsx"
+      },
+      "action": {
+        "type": "script",
+        "command": "node .kiro/hooks/auto-commit-fix.cjs"
+      },
+      "enabled": false
+    },
+    {
+      "id": "celebration-toast",
+      "name": "The Victory Chime",
+      "description": "Shows a celebration toast when corruption reaches 0% (full sanctification)",
+      "trigger": {
+        "type": "onFileSave",
+        "filePattern": "public/corruption-state.json"
+      },
+      "action": {
+        "type": "script",
+        "command": "node .kiro/hooks/celebration-toast.cjs"
+      },
+      "enabled": true
+    },
+    {
+      "id": "security-docs",
+      "name": "The Grimoire Scribe",
+      "description": "Auto-generates security fix documentation when vulnerabilities are resolved",
+      "trigger": {
+        "type": "onFileSave",
+        "filePattern": "src/components/vulnerable/**/*.tsx"
+      },
+      "action": {
+        "type": "script",
+        "command": "node .kiro/hooks/security-docs.cjs"
+      },
+      "enabled": false
+    },
+    {
+      "id": "start-game",
+      "name": "🎮 Start The Digital Exorcism",
+      "description": "Resets the game to haunted state and prepares for gameplay. Click this button or ask Kiro to 'start the game'!",
+      "trigger": {
+        "type": "manual"
+      },
+      "action": {
+        "type": "script",
+        "command": "node .kiro/hooks/start-game.cjs"
+      },
+      "enabled": true
     }
   ]
 }

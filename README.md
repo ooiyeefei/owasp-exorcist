@@ -20,26 +20,55 @@ The Digital Exorcism is a meta-application that "haunts" itself based on the qua
 
 ## 🚀 Quick Start
 
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **npm** (comes with Node.js)
+- **Kiro IDE** ([Download here](https://kiro.ai))
+- **Git**
+
+### Getting Started (3 Steps)
+
+**1. Clone & Install**
 ```bash
-# Install dependencies
+git clone https://github.com/ooiyeefei/owasp-exorcist.git
+cd owasp-exorcist
 npm install
-
-# Start the development server
-npm run dev
-
-# Open http://localhost:5173
 ```
 
-## 🎬 The 3-Minute Demo Flow
+**2. Open in Kiro IDE**
+- Open the `owasp-exorcist` folder in Kiro IDE
+- Open Kiro Chat (sidebar)
 
-| Time | Action |
-|------|--------|
-| 0:00 | Click "ENTER THE NIGHTMARE" - Audio drone starts |
-| 0:30 | Ask Kiro: "What is the current corruption level?" |
-| 1:00 | Kiro responds with 100% corruption and vulnerability list |
-| 1:30 | Open `LeakyComponent.tsx`, ask Kiro to fix the secret |
-| 2:00 | Save file → Hook triggers → UI heals → Audio shifts |
-| 2:30 | Show final "Sanctified" state at 0% corruption |
+**3. Start Playing!**
+
+In Kiro Chat, type:
+```
+start the game
+```
+
+Kiro will:
+- ✅ Reset the game to haunted state (100% corruption)
+- ✅ Start the dev server automatically
+- ✅ Guide you through the gameplay
+
+Then open **http://localhost:5173** in your browser and start fixing vulnerabilities!
+
+### How to Play
+
+**In Kiro Chat:**
+- `"start the game"` - Initialize the game
+- `"fix the security vulnerability"` - Fix the current file
+- `"what is the current corruption level?"` - Check progress
+- `"what are the OWASP Top 10?"` - Learn about vulnerabilities
+
+**In the Browser:**
+- Choose Easy or Hard difficulty
+- Watch the corruption meter
+- See vulnerabilities get fixed in real-time
+
+### Need Help?
+
 
 ## 🏗️ Architecture
 
@@ -81,6 +110,19 @@ npm run dev
         ├── design.md
         └── tasks.md
 ```
+
+## 🪝 Kiro Agent Hooks
+
+Four automated hooks that showcase Kiro's workflow automation:
+
+| Hook | Trigger | Status | Purpose |
+|------|---------|--------|---------|
+| 🔮 **The Ritual** | File Save | ✅ Enabled | Scans for OWASP vulnerabilities |
+| 📝 **Sanctification Recorder** | File Save | ⏸️ Optional | Auto-commits security fixes |
+| 🎉 **Victory Chime** | File Save | ✅ Enabled | Celebrates 0% corruption |
+| 📚 **Grimoire Scribe** | File Save | ⏸️ Optional | Auto-generates security docs |
+
+See [`.kiro/hooks/README.md`](.kiro/hooks/README.md) for detailed documentation.
 
 ## 🔒 The Haunted Codebase
 
