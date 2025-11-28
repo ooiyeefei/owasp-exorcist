@@ -21,6 +21,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 2. Replace with `import.meta.env.VITE_VARIABLE_NAME`
 3. Add the variable to `.env` file (not committed to git)
 4. Update `.env.example` with placeholder value
+5. **CRITICAL**: After applying the fix, run `node .kiro/hooks/measure-corruption.cjs` to update the corruption state
 
 ---
 
@@ -50,6 +51,7 @@ import DOMPurify from 'dompurify';
 2. Render content as plain text using `{variable}` syntax
 3. If HTML rendering is absolutely required, use DOMPurify to sanitize
 4. Consider if HTML rendering is actually needed - plain text is safer
+5. **CRITICAL**: After applying the fix, run `node .kiro/hooks/measure-corruption.cjs` to update the corruption state
 
 ---
 
@@ -84,6 +86,7 @@ const safeOperations = {
 2. Replace with a static message or safe alternative
 3. Never execute user-provided code
 4. If math evaluation is needed, use a safe math parser library
+5. **CRITICAL**: After applying the fix, run `node .kiro/hooks/measure-corruption.cjs` to update the corruption state
 
 ---
 

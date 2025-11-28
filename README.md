@@ -75,7 +75,7 @@ Then open **http://localhost:5173** in your browser and start fixing vulnerabili
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     Kiro IDE Environment                     │
-│  User edits vulnerable/*.tsx → File Save Event              │
+│  Kiro fixes vulnerability → Auto-saves → Runs hook          │
 └───────────────────┬──────────────────────────────────────────┘
                     │
                     ▼

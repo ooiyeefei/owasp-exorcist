@@ -185,24 +185,29 @@ If you have Kiro IDE installed:
 const API_KEY = "sk-1234567890abcdefghijklmnopqrstuvwxyz1234567890";
 ```
 
-**Fix it manually OR ask Kiro:**
-- **Manual fix:** Replace with:
+**Ask Kiro to fix it:**
+- In Kiro Chat, ask: "Fix the security vulnerability in this file"
+- Kiro will automatically:
+  - Apply the fix
+  - Save the file
+  - Run the corruption scanner
   ```typescript
   const API_KEY = import.meta.env.VITE_API_KEY || "API_KEY_NOT_SET";
   ```
-- **Kiro fix:** In Kiro Chat, ask: "Fix the security vulnerability in this file"
-
-**Save the file:**
-- Press `Cmd + S` (Mac) or `Ctrl + S` (Windows/Linux)
 
 ### 7.5 Watch the Magic! ✨
 
-**What happens automatically:**
-1. The Ritual hook runs (you'll see logs in the terminal)
-2. Corruption level drops from 100% → 67%
-3. Visual effects reduce (less red, less glitchy)
-4. Music begins crossfading (becomes less ominous)
-5. The UI starts healing!
+**What Kiro does automatically:**
+1. Applies the security fix
+2. Saves the file
+3. Runs the corruption scanner hook
+4. Updates the corruption state
+
+**What you see:**
+1. Corruption level drops from 100% → 67%
+2. Visual effects reduce (less red, less glitchy)
+3. Music begins crossfading (becomes less ominous)
+4. The UI starts healing!
 
 **Check the terminal:**
 ```
@@ -214,21 +219,13 @@ Vulnerabilities found: 2
 
 **Vulnerability 2: InjectionComponent.tsx**
 - Open: `src/components/vulnerable/InjectionComponent.tsx`
-- Find line with: `dangerouslySetInnerHTML`
-- Replace with safe rendering:
-  ```typescript
-  <div className="rendered-html">{userInput}</div>
-  ```
-- Save → Watch corruption drop to 34%
+- Ask Kiro: "Fix the security vulnerability in this file"
+- Kiro automatically fixes, saves, and updates corruption → 34%
 
 **Vulnerability 3: UnsafeComponent.tsx**
 - Open: `src/components/vulnerable/UnsafeComponent.tsx`
-- Find the `eval()` function
-- Replace with:
-  ```typescript
-  const output = "⚠️ Code execution disabled for security";
-  ```
-- Save → Watch corruption drop to 0%!
+- Ask Kiro: "Fix the security vulnerability in this file"
+- Kiro automatically fixes, saves, and updates corruption → 0%!
 
 ### 7.7 Celebrate! 🎉
 
@@ -321,21 +318,22 @@ cat public/corruption-state.json
 
 ### Changes don't appear in browser
 **Solution:**
-- Make sure you saved the file
-- Check the terminal for errors
+- Kiro auto-saves files after fixing
+- Check the terminal for hook execution logs
 - Try refreshing the browser (F5)
 
 ---
 
 ## 📚 What's Happening Behind the Scenes?
 
-### When you save a file:
-1. **The Ritual Hook** runs automatically
-2. It scans `src/components/vulnerable/` for security issues
-3. It calculates a corruption score (0-100%)
-4. It writes to `public/corruption-state.json`
-5. The React app polls this file every second
-6. The UI updates based on the corruption level
+### When Kiro fixes a vulnerability:
+1. **Kiro applies the fix** to the code
+2. **Kiro saves the file** automatically
+3. **Kiro runs The Ritual Hook** to scan for remaining issues
+4. The hook calculates a corruption score (0-100%)
+5. The hook writes to `public/corruption-state.json`
+6. The React app polls this file every second
+7. The UI updates based on the corruption level
 
 ### The Kiro Integration:
 - **Agent Hooks:** Automatic code scanning on file save
