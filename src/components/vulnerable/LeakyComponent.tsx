@@ -7,8 +7,8 @@
 import { useState } from 'react';
 
 export function LeakyComponent() {
-  // VULNERABILITY: Hardcoded API key - will be detected by The Ritual
-  const API_KEY = "sk-1234567890abcdefghijklmnopqrstuvwxyz1234567890";
+  // FIXED: Using environment variable instead of hardcoded secret
+  const API_KEY = import.meta.env.VITE_API_KEY || "API_KEY_NOT_SET";
   const [status, setStatus] = useState<string>('idle');
 
   const makeApiCall = async () => {

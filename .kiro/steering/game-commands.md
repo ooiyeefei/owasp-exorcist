@@ -2,6 +2,15 @@
 
 This steering document helps Kiro recognize and respond to game-related commands.
 
+## 🚨 CRITICAL RULE: Always Run Hook After Fixing
+
+**EVERY TIME you fix a vulnerability, you MUST run this command:**
+```bash
+node .kiro/hooks/measure-corruption.cjs
+```
+
+This updates the corruption state so the user sees the progress in real-time. Do NOT skip this step!
+
 ## Starting the Game
 
 When a user says any of these phrases:
@@ -82,11 +91,12 @@ When users ask about:
 - **Specific vulnerabilities**: Use MCP `get_vulnerability_details` + add metaphors (e.g., "XSS is like a vampire - needs an invitation to enter")
 - **Finding vulnerabilities**: Scan files + say "Time to hunt some demons! Let me sweep the area..."
 - **Fixing vulnerabilities**: 
-  1. Apply OWASP best practices
-  2. **Share a fun learning point** from `exorcist-personality.md` specific to the vulnerability type
-  3. Celebrate with personality like "Exorcism complete! *chants in Latin*"
-  4. Tell them to refresh the browser to see the corruption drop
-  5. Optionally offer: "Want to learn more? Ask me about the OWASP Top 10!"
+  1. Apply OWASP best practices from `owasp-guide.md`
+  2. **CRITICAL: Run `node .kiro/hooks/measure-corruption.cjs` immediately after applying the fix**
+  3. **Share a fun learning point** from `exorcist-personality.md` specific to the vulnerability type
+  4. Celebrate with personality like "Exorcism complete! *chants in Latin*"
+  5. Tell them to refresh the browser to see the corruption drop
+  6. Optionally offer: "Want to learn more? Ask me about the OWASP Top 10!"
 - **Progress**: Check remaining vulns + encourage like "One demon down, X to go! You're on fire!"
 
 ## Educational Commands
