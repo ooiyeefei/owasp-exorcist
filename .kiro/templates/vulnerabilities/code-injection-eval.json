@@ -2,7 +2,7 @@
   "id": "code-injection-eval-v1",
   "owaspCategory": "A03:2021",
   "type": "code-injection",
-  "name": "Code Injection via eval()",
+  "name": "Code Injection Vulnerability",
   "description": "Arbitrary code execution through eval() or similar dynamic code execution",
   "severity": "critical",
   "difficultyRange": {
@@ -15,9 +15,9 @@
   },
   "hints": {
     "easy": [
-      "Search for 'eval(' in the codebase",
-      "Look for dynamic code execution functions",
-      "Check for any code that runs user-provided strings as JavaScript"
+      "Search for dynamic code execution in the codebase",
+      "Look for functions that execute user-provided strings",
+      "Check for any code that runs user input as JavaScript"
     ],
     "hard": [
       "Examine how user input is processed",
@@ -26,9 +26,9 @@
     ]
   },
   "educationalContent": {
-    "analogy": "Using eval() is like giving a stranger the keys to your car AND your house. It executes ANY code, including malicious commands that can steal data or install malware.",
-    "realWorldImpact": "The Equifax breach (143 million people affected) started with code execution vulnerabilities. eval() is the #1 way attackers inject malicious code. Most security tools flag it immediately.",
-    "preventionTip": "Never use eval() with user input. For JSON, use JSON.parse(). For math expressions, use a safe math library. For user code execution, use a sandboxed environment like Web Workers or don't allow it at all.",
+    "analogy": "Dynamic code execution is like giving a stranger the keys to your car AND your house. It executes ANY code, including malicious commands that can steal data or install malware.",
+    "realWorldImpact": "The Equifax breach (143 million people affected) started with code execution vulnerabilities. Dynamic code execution is the #1 way attackers inject malicious code. Most security tools flag it immediately.",
+    "preventionTip": "Never execute user input as code. For JSON, use JSON.parse(). For math expressions, use a safe math library. For user code execution, use a sandboxed environment like Web Workers or don't allow it at all.",
     "awsServices": [
       {
         "name": "AWS Lambda",

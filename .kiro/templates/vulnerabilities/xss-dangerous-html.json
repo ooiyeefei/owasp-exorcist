@@ -2,7 +2,7 @@
   "id": "xss-dangerous-html-v1",
   "owaspCategory": "A03:2021",
   "type": "xss-dangerous-html",
-  "name": "XSS via dangerouslySetInnerHTML",
+  "name": "XSS Vulnerability",
   "description": "Cross-site scripting vulnerability through unsafe HTML rendering",
   "severity": "high",
   "difficultyRange": {
@@ -15,7 +15,7 @@
   },
   "hints": {
     "easy": [
-      "Look for 'dangerouslySetInnerHTML' in the code",
+      "Look for unsafe HTML rendering in the code",
       "Check where user input is being rendered as HTML",
       "Search for components that display user-generated content"
     ],
@@ -26,7 +26,7 @@
     ]
   },
   "educationalContent": {
-    "analogy": "Using dangerouslySetInnerHTML is like inviting a vampire into your home - once they're in, chaos ensues! React's default text rendering is like having garlic at every door.",
+    "analogy": "Unsafe HTML rendering is like inviting a vampire into your home - once they're in, chaos ensues! React's default text rendering is like having garlic at every door.",
     "realWorldImpact": "In 2018, British Airways was fined $230 million after an XSS attack stole 380,000 credit card numbers. XSS can steal user sessions, redirect to phishing sites, or inject malware.",
     "preventionTip": "Always use React's default text rendering {variable} which automatically escapes HTML. If you MUST render HTML, use a sanitizer like DOMPurify to remove malicious scripts.",
     "awsServices": [

@@ -19,25 +19,78 @@
 
 /* ============================================
    SANCTIFIED STATE (0-20% corruption)
-   Bright heavenly gradient
+   Bright heavenly gradient with light theme
    ============================================ */
 
 .app-container.sanctified {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
   font-family: 'Inter', sans-serif;
   transition: all 1s ease;
   position: relative;
   overflow: hidden;
+  
+  /* CSS variables for light theme */
+  --text-primary: #1a1a1a;
+  --text-secondary: #4b5563;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-border: rgba(16, 185, 129, 0.3);
+  --accent-color: #10b981;
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 .app-container.sanctified .dashboard {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(59, 130, 246, 0.2);
   border-radius: 20px;
   box-shadow: 
-    0 8px 32px rgba(102, 126, 234, 0.3),
-    inset 0 0 30px rgba(255, 255, 255, 0.05);
+    0 8px 32px rgba(59, 130, 246, 0.15),
+    inset 0 0 30px rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
+}
+
+/* Update all text in sanctified state to be dark */
+.app-container.sanctified .dashboard * {
+  color: var(--text-primary);
+}
+
+.app-container.sanctified .dashboard h1,
+.app-container.sanctified .dashboard h2,
+.app-container.sanctified .dashboard h3 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.app-container.sanctified .dashboard p,
+.app-container.sanctified .dashboard span {
+  color: var(--text-secondary);
+}
+
+/* Sanctified state sections */
+.app-container.sanctified .onboarding-section {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.app-container.sanctified .dashboard-header {
+  color: var(--text-primary);
+}
+
+.app-container.sanctified .dashboard-subtitle {
+  color: var(--text-secondary);
+}
+
+/* Sanctified button styling */
+.app-container.sanctified button {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--text-primary);
+}
+
+.app-container.sanctified button:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
 }
 
 /* ============================================
@@ -110,11 +163,101 @@
 
 .vulnerable-component {
   padding: 1.5rem;
-  margin: 1rem 0;
+  margin: 0;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Sanctified state vulnerable components */
+.app-container.sanctified .vulnerable-component {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  position: relative;
+}
+
+/* Sanctified state corruption meter */
+.app-container.sanctified .corruption-meter {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 2px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.app-container.sanctified .meter-label,
+.app-container.sanctified .meter-value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.app-container.sanctified .meter-bar {
+  background: rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(16, 185, 129, 0.2);
+}
+
+.app-container.sanctified .meter-fill {
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+.app-container.sanctified .meter-labels span {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Sanctified state vulnerability items */
+.app-container.sanctified .vulnerability-item {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.app-container.sanctified .vuln-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.app-container.sanctified .vuln-file,
+.app-container.sanctified .vuln-category {
+  color: var(--text-secondary);
+}
+
+.app-container.sanctified .vuln-status {
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Sanctified state sections */
+.app-container.sanctified .vulnerabilities-section,
+.app-container.sanctified .components-section {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  margin: 1.5rem 0;
+}
+
+.app-container.sanctified .section-description {
+  color: var(--text-secondary);
+}
+
+/* AWS service text in sanctified state */
+.app-container.sanctified .vulnerable-component h3,
+.app-container.sanctified .vulnerable-component h4 {
+  color: #1e40af;
+}
+
+.app-container.sanctified .vulnerable-component .warning {
+  color: #dc2626;
+  font-weight: 600;
 }
 
 .vulnerable-component h3 {
@@ -155,6 +298,30 @@
   color: inherit;
   font-family: inherit;
   margin-top: 0.5rem;
+}
+
+/* Sanctified state inputs and buttons */
+.app-container.sanctified .vulnerable-component button {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #1a1a1a;
+}
+
+.app-container.sanctified .vulnerable-component button:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.app-container.sanctified .vulnerable-component input,
+.app-container.sanctified .vulnerable-component textarea {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #1a1a1a;
+}
+
+.app-container.sanctified .vulnerable-component input::placeholder,
+.app-container.sanctified .vulnerable-component textarea::placeholder {
+  color: #9ca3af;
 }
 
 .exposed-secret {

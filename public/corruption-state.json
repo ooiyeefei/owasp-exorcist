@@ -1,92 +1,70 @@
 {
-  "corruptionLevel": 100,
+  "corruptionLevel": 33,
   "totalVulnerabilities": 3,
   "vulnerabilities": [
     {
-      "type": "missing-validation",
-      "file": "generated/VulnerableMissingInputValidation1.tsx",
-      "pattern": "const processData = (input) => { return database.save(input); }",
-      "description": "Accepting untrusted input without validation or sanitization",
-      "severity": "medium",
+      "type": "insecure-deserialization",
+      "file": "generated/VulnerableInsecureDeserialization2.tsx",
+      "pattern": "const data = JSON.parse(userInput); // No validation",
+      "description": "Unsafe JSON parsing or object reconstruction without validation",
+      "severity": "high",
       "count": 1,
-      "componentName": "VulnerableMissingInputValidation1",
-      "owaspCategory": "A04:2021",
+      "componentName": "VulnerableInsecureDeserialization2",
+      "owaspCategory": "A08:2021",
       "hints": [
-        "Look for functions that accept user input without validation",
-        "Check if input is sanitized before being used",
-        "Search for form submissions without validation logic"
+        "Look for JSON.parse() calls with user input",
+        "Check if deserialized data is validated against a schema",
+        "Search for object reconstruction without type checking"
       ],
-      "generatedAt": "2025-11-30T04:13:42.364Z",
+      "generatedAt": "2025-11-30T07:47:30.371Z",
       "detection": {
-        "type": "comment",
-        "pattern": "No input validation implemented",
-        "description": "Look for missing input validation comment",
+        "type": "string",
+        "pattern": "JSON.parse",
+        "description": "Look for JSON.parse without validation",
         "fixIndicators": [
-          "validate",
-          "schema",
-          "zod",
-          "yup"
-        ]
-      }
-    },
-    {
-      "type": "insufficient-logging",
-      "file": "generated/VulnerableInsufficientSecurityLogging2.tsx",
-      "pattern": "const login = (user, pass) => { if (auth(user, pass)) return token; }",
-      "description": "Missing or inadequate logging of security events",
-      "severity": "medium",
-      "count": 1,
-      "componentName": "VulnerableInsufficientSecurityLogging2",
-      "owaspCategory": "A09:2021",
-      "hints": [
-        "Look for authentication functions without logging",
-        "Check if security events (login, logout, access denied) are logged",
-        "Search for error handling without logging"
-      ],
-      "generatedAt": "2025-11-30T04:13:42.364Z",
-      "detection": {
-        "type": "comment",
-        "pattern": "No security logging implemented",
-        "description": "Look for missing security logging comment",
-        "fixIndicators": [
-          "logger",
-          "audit",
-          "securityLog"
-        ]
-      }
-    },
-    {
-      "type": "code-injection",
-      "file": "generated/VulnerableCodeInjectionviaeval3.tsx",
-      "pattern": "const result = eval(userCode);",
-      "description": "Arbitrary code execution through eval() or similar dynamic code execution",
-      "severity": "critical",
-      "count": 1,
-      "componentName": "VulnerableCodeInjectionviaeval3",
-      "owaspCategory": "A03:2021",
-      "hints": [
-        "Search for 'eval(' in the codebase",
-        "Look for dynamic code execution functions",
-        "Check for any code that runs user-provided strings as JavaScript"
-      ],
-      "generatedAt": "2025-11-30T04:13:42.364Z",
-      "detection": {
-        "type": "regex",
-        "pattern": "eval\\s*\\(",
-        "description": "Look for eval() function calls",
-        "fixIndicators": [
-          "removed eval",
-          "safe alternative"
+          ".parse(JSON.parse",
+          "schema.parse(",
+          "z.object",
+          "yup.object",
+          "FIXED: validation added"
         ]
       }
     }
   ],
-  "sessionId": "46945f763e0a3ff6",
+  "sessionId": "91900915fa81b6e4",
   "difficulty": "easy",
   "generatedComponents": [
     {
-      "filename": "VulnerableMissingInputValidation1.tsx",
-      "componentName": "VulnerableMissingInputValidation1",
+      "filename": "VulnerableCodeInjectionVulnerability1.tsx",
+      "componentName": "VulnerableCodeInjectionVulnerability1",
+      "vulnerabilityType": "code-injection",
+      "owaspCategory": "A03:2021",
+      "difficulty": 3,
+      "hints": [
+        "Search for dynamic code execution in the codebase",
+        "Look for functions that execute user-provided strings",
+        "Check for any code that runs user input as JavaScript"
+      ],
+      "generatedAt": "2025-11-30T07:47:30.370Z",
+      "templateId": "code-injection-eval-v1"
+    },
+    {
+      "filename": "VulnerableInsecureDeserialization2.tsx",
+      "componentName": "VulnerableInsecureDeserialization2",
+      "vulnerabilityType": "insecure-deserialization",
+      "owaspCategory": "A08:2021",
+      "difficulty": 5,
+      "hints": [
+        "Look for JSON.parse() calls with user input",
+        "Check if deserialized data is validated against a schema",
+        "Search for object reconstruction without type checking"
+      ],
+      "generatedAt": "2025-11-30T07:47:30.371Z",
+      "templateId": "insecure-deserialization-v1"
+    },
+    {
+      "filename": "VulnerableMissingInputValidation3.tsx",
+      "componentName": "VulnerableMissingInputValidation3",
       "vulnerabilityType": "missing-validation",
       "owaspCategory": "A04:2021",
       "difficulty": 2,
@@ -95,39 +73,11 @@
         "Check if input is sanitized before being used",
         "Search for form submissions without validation logic"
       ],
-      "generatedAt": "2025-11-30T04:13:42.362Z",
+      "generatedAt": "2025-11-30T07:47:30.371Z",
       "templateId": "missing-validation-v1"
-    },
-    {
-      "filename": "VulnerableInsufficientSecurityLogging2.tsx",
-      "componentName": "VulnerableInsufficientSecurityLogging2",
-      "vulnerabilityType": "insufficient-logging",
-      "owaspCategory": "A09:2021",
-      "difficulty": 3,
-      "hints": [
-        "Look for authentication functions without logging",
-        "Check if security events (login, logout, access denied) are logged",
-        "Search for error handling without logging"
-      ],
-      "generatedAt": "2025-11-30T04:13:42.363Z",
-      "templateId": "insufficient-logging-v1"
-    },
-    {
-      "filename": "VulnerableCodeInjectionviaeval3.tsx",
-      "componentName": "VulnerableCodeInjectionviaeval3",
-      "vulnerabilityType": "code-injection",
-      "owaspCategory": "A03:2021",
-      "difficulty": 3,
-      "hints": [
-        "Search for 'eval(' in the codebase",
-        "Look for dynamic code execution functions",
-        "Check for any code that runs user-provided strings as JavaScript"
-      ],
-      "generatedAt": "2025-11-30T04:13:42.364Z",
-      "templateId": "code-injection-eval-v1"
     }
   ],
-  "timestamp": 1764476022364,
-  "lastScan": "2025-11-30T04:13:42.364Z",
+  "timestamp": 1764488931373,
+  "lastScan": "2025-11-30T07:48:51.373Z",
   "scanDuration": 0
 }

@@ -255,6 +255,83 @@
   color: rgba(168, 85, 247, 0.4);
 }
 
+/* Sanctified state styling */
+.app-container.sanctified .audio-controls-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    0 0 30px rgba(59, 130, 246, 0.2);
+}
+
+.app-container.sanctified .audio-header {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.05));
+}
+
+.app-container.sanctified .collapse-button {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.app-container.sanctified .collapse-button:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+.app-container.sanctified .mute-button {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.app-container.sanctified .mute-button:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.2));
+  border-color: rgba(16, 185, 129, 0.8);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+}
+
+.app-container.sanctified .track-selector {
+  background: rgba(255, 255, 255, 0.5);
+  border-top-color: rgba(59, 130, 246, 0.2);
+}
+
+.app-container.sanctified .track-label {
+  color: #4b5563;
+  text-shadow: none;
+}
+
+.app-container.sanctified .track-label.active {
+  color: #3b82f6;
+  text-shadow: none;
+}
+
+.app-container.sanctified .track-select {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #1a1a1a;
+}
+
+.app-container.sanctified .track-select:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.app-container.sanctified .track-select.playing {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.1));
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.app-container.sanctified .track-select option {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.app-container.sanctified .helper-text {
+  color: #f59e0b;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .audio-controls-container {

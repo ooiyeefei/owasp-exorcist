@@ -294,7 +294,7 @@ function getDetectionPattern(type) {
         type: 'string',
         pattern: 'SELECT * FROM',
         description: 'Look for SQL string concatenation',
-        fixIndicators: ['parameterized', 'prepared statement', '?', '$1']
+        fixIndicators: ['db.query(', '.execute(', 'FIXED: using parameterized', 'prepared statement with']
       };
     
     case 'idor':
@@ -302,7 +302,7 @@ function getDetectionPattern(type) {
         type: 'string',
         pattern: 'getUserData',
         description: 'Look for direct object access without auth',
-        fixIndicators: ['checkAuthorization', 'verifyOwnership', 'hasPermission']
+        fixIndicators: ['checkAuthorization(', 'verifyOwnership(', 'hasPermission(', 'FIXED: authorization added']
       };
     
     case 'missing-validation':
@@ -310,7 +310,7 @@ function getDetectionPattern(type) {
         type: 'comment',
         pattern: 'No input validation implemented',
         description: 'Look for missing input validation comment',
-        fixIndicators: ['validate', 'schema', 'zod', 'yup']
+        fixIndicators: ['.parse(', '.validate(', 'z.object', 'yup.object', 'FIXED: validation added']
       };
     
     case 'insecure-deserialization':
@@ -318,7 +318,7 @@ function getDetectionPattern(type) {
         type: 'string',
         pattern: 'JSON.parse',
         description: 'Look for JSON.parse without validation',
-        fixIndicators: ['validate', 'schema', 'zod', 'yup']
+        fixIndicators: ['.parse(JSON.parse', 'schema.parse(', 'z.object', 'yup.object', 'FIXED: validation added']
       };
     
     case 'insufficient-logging':
@@ -326,7 +326,7 @@ function getDetectionPattern(type) {
         type: 'comment',
         pattern: 'No security logging implemented',
         description: 'Look for missing security logging comment',
-        fixIndicators: ['logger', 'audit', 'securityLog']
+        fixIndicators: ['logger.log(', 'auditLog(', 'securityLog(', 'FIXED: logging added']
       };
     
     default:
@@ -340,6 +340,46 @@ function getDetectionPattern(type) {
 }
 
 /**
+ * Validate template for pattern contamination
+ * Checks if detection pattern appears in display text (JSX strings)
+ */
+function validateTemplate(template) {
+  const warnings = [];
+  
+  // Check if pattern appears in template name
+  if (template.codePattern && template.codePattern.vulnerablePattern) {
+    const pattern = template.codePattern.vulnerablePattern;
+    
+    // Extract potential regex patterns from the vulnerable pattern
+    const patternToCheck = pattern.replace(/[\\]/g, '');
+    
+    if (template.name.includes(patternToCheck)) {
+      warnings.push(`Template name contains vulnerable pattern: "${template.name}"`);
+    }
+    
+    // Check hints
+    const hints = [...(template.hints.easy || []), ...(template.hints.hard || [])];
+    hints.forEach((hint, idx) => {
+      if (hint.includes(patternToCheck)) {
+        warnings.push(`Hint ${idx + 1} contains vulnerable pattern: "${hint}"`);
+      }
+    });
+    
+    // Check educational content
+    if (template.educationalContent) {
+      if (template.educationalContent.analogy && template.educationalContent.analogy.includes(patternToCheck)) {
+        warnings.push(`Analogy contains vulnerable pattern`);
+      }
+      if (template.educationalContent.preventionTip && template.educationalContent.preventionTip.includes(patternToCheck)) {
+        warnings.push(`Prevention tip contains vulnerable pattern`);
+      }
+    }
+  }
+  
+  return warnings;
+}
+
+/**
  * Load templates from JSON files
  */
 function loadTemplates() {
@@ -348,7 +388,17 @@ function loadTemplates() {
   
   return files.map(file => {
     const content = fs.readFileSync(path.join(templatesDir, file), 'utf-8');
-    return JSON.parse(content);
+    const template = JSON.parse(content);
+    
+    // Validate template for pattern contamination
+    const warnings = validateTemplate(template);
+    if (warnings.length > 0) {
+      console.log(`⚠️  Template validation warnings for ${file}:`);
+      warnings.forEach(w => console.log(`   - ${w}`));
+      console.log(`   💡 Consider using generic terms in display text to avoid false positives\n`);
+    }
+    
+    return template;
   });
 }
 

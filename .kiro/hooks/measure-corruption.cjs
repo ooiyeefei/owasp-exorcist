@@ -13,10 +13,19 @@ function checkVulnerabilityFixed(filePath, detection) {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
     
-    // Remove comments to avoid false positives
-    const codeOnly = content
-      .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
-      .replace(/\/\/.*/g, ''); // Remove line comments
+    // Enhanced code extraction - removes comments and JSX display text only
+    // We need to be careful: remove JSX text content but keep code (including template literals)
+    let codeOnly = content;
+    
+    // Remove block comments
+    codeOnly = codeOnly.replace(/\/\*[\s\S]*?\*\//g, '');
+    
+    // Remove line comments  
+    codeOnly = codeOnly.replace(/\/\/.*/g, '');
+    
+    // Remove JSX text content between tags (but not code or attributes)
+    // Match: >{text without < or {}<  (display text only, not JSX expressions)
+    codeOnly = codeOnly.replace(/>([^<{]*?)</g, '><');
     
     // Check based on detection type
     let hasVulnerablePattern = false;
@@ -45,11 +54,11 @@ function checkVulnerabilityFixed(filePath, detection) {
     );
     
     // For 'comment' type: fixed if comment is removed OR fix indicators are present
-    // For other types: fixed if vulnerable pattern is gone
+    // For other types: fixed if vulnerable pattern is gone OR fix indicators are present
     if (detection.type === 'comment') {
       return !hasVulnerablePattern || hasFixIndicators;
     } else {
-      return !hasVulnerablePattern;
+      return !hasVulnerablePattern || hasFixIndicators;
     }
     
   } catch (error) {

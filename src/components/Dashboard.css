@@ -108,6 +108,15 @@
   animation: title-flicker 3s infinite;
 }
 
+/* Sanctified state - clean font */
+.app-container.sanctified .onboarding-text h3 {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  text-shadow: none;
+  animation: none;
+  font-weight: 700;
+}
+
 @keyframes title-flicker {
   0%, 100% { opacity: 1; }
   92% { opacity: 1; }
@@ -198,6 +207,13 @@
   overflow: hidden;
 }
 
+/* Sanctified state - light background for header */
+.app-container.sanctified .dashboard-header {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .dashboard-header::before {
   content: '';
   position: absolute;
@@ -250,6 +266,16 @@
   letter-spacing: 2px;
 }
 
+/* Sanctified state - clean font for header */
+.app-container.sanctified .dashboard-header h1 {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  text-shadow: none;
+  animation: none;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+
 .dashboard-subtitle {
   font-family: 'Creepster', cursive;
   font-size: 1.2rem;
@@ -257,6 +283,15 @@
   color: #991b1b;
   text-shadow: 0 0 10px rgba(153, 27, 27, 0.5);
   letter-spacing: 1px;
+}
+
+/* Sanctified state - clean font for subtitle */
+.app-container.sanctified .dashboard-subtitle {
+  font-family: 'Inter', sans-serif;
+  color: #4b5563;
+  text-shadow: none;
+  letter-spacing: normal;
+  font-weight: 500;
 }
 
 /* Corruption Meter */
@@ -308,6 +343,14 @@
   letter-spacing: 1px;
 }
 
+/* Sanctified state - clean font for meter label */
+.app-container.sanctified .meter-label {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  text-shadow: none;
+  letter-spacing: normal;
+}
+
 .meter-value {
   font-size: 1.8rem;
   font-weight: 700;
@@ -317,6 +360,14 @@
     0 0 10px rgba(220, 38, 38, 0.8),
     0 0 20px rgba(220, 38, 38, 0.4);
   animation: value-pulse 2s ease-in-out infinite;
+}
+
+/* Sanctified state - clean font for meter value */
+.app-container.sanctified .meter-value {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  text-shadow: none;
+  animation: none;
 }
 
 @keyframes value-pulse {
@@ -542,6 +593,45 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
+  align-items: stretch; /* Stretch all cards to same height */
+}
+
+/* Make all vulnerable components same height in grid */
+.components-grid > * {
+  display: flex;
+  flex-direction: column;
+}
+
+.components-grid .vulnerable-component {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Ensure consistent spacing for all card sections */
+.vulnerable-component > h3 {
+  flex-shrink: 0;
+}
+
+.vulnerable-component > .warning {
+  flex-shrink: 0;
+}
+
+.vulnerable-component > div:first-of-type {
+  flex-shrink: 0;
+}
+
+.vulnerable-component .input-section {
+  flex-shrink: 0;
+}
+
+.vulnerable-component > button {
+  flex-shrink: 0;
+}
+
+/* Push AWS services section to bottom */
+.vulnerable-component > div:last-child {
+  margin-top: auto;
 }
 
 /* Instructions Section */
@@ -661,4 +751,25 @@
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
+}
+
+/* Components Grid - Aligned Layout */
+.components-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+/* Ensure all cards have same height */
+.components-grid .vulnerable-component {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Sanctified state - ensure proper alignment */
+.app-container.sanctified .components-grid .vulnerable-component {
+  display: flex;
+  flex-direction: column;
 }
