@@ -1,0 +1,48 @@
+.particle-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.bg-particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  animation: particle-rise linear infinite;
+  opacity: 0.7;
+  filter: blur(0.5px);
+}
+
+@keyframes particle-rise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+    transform: translateY(-50vh) translateX(5px) scale(1);
+  }
+  25% {
+    opacity: 0.9;
+    transform: translateY(-250vh) translateX(15px) scale(1.2);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-500vh) translateX(30px) scale(1.2);
+  }
+  75% {
+    opacity: 0.8;
+    transform: translateY(-750vh) translateX(45px) scale(1);
+  }
+  90% {
+    opacity: 0.7;
+    transform: translateY(-900vh) translateX(55px) scale(0.8);
+  }
+  100% {
+    transform: translateY(-1000vh) translateX(60px) scale(0.5);
+    opacity: 0.3;
+  }
+}

@@ -1,0 +1,67 @@
+/* GitHubLink - Persistent GitHub repository link styling */
+
+.github-link {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(249, 115, 22, 0.5);
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(249, 115, 22, 0.3);
+}
+
+.github-link:hover {
+  background: rgba(0, 0, 0, 0.95);
+  border-color: rgba(249, 115, 22, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(249, 115, 22, 0.5),
+    0 0 40px rgba(168, 85, 247, 0.3);
+}
+
+.github-link:active {
+  transform: translateY(0);
+}
+
+.github-link svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.github-link-text {
+  white-space: nowrap;
+}
+
+/* Responsive: Hide text on smaller screens */
+@media (max-width: 640px) {
+  .github-link {
+    padding: 0.625rem;
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .github-link-text {
+    display: none;
+  }
+}
+
+/* Ensure it stays above other elements */
+.github-link {
+  pointer-events: auto;
+}

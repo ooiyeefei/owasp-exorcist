@@ -8,8 +8,9 @@ import { CorruptionProvider, useCorruption } from './contexts/CorruptionContext'
 import { SeanceOverlay } from './components/SeanceOverlay';
 import { DashboardDynamic as Dashboard } from './components/DashboardDynamic';
 import { CorruptionFilter } from './components/VisualEffects/CorruptionFilter';
-import { CorruptionOverlay } from './components/VisualEffects/CorruptionOverlay';
+import { ParticleBackground } from './components/VisualEffects/ParticleBackground';
 import { AudioControls } from './components/AudioControls';
+import { GitHubLink } from './components/GitHubLink';
 import { useAudioCorruption } from './hooks/useAudioCorruption';
 import './styles/corruption.css';
 import './App.css';
@@ -33,13 +34,26 @@ function AppContent() {
   };
 
   if (!hasStarted) {
-    return <SeanceOverlay onStart={handleStart} />;
+    return (
+      <>
+        <GitHubLink />
+        <SeanceOverlay onStart={handleStart} />
+      </>
+    );
   }
+
+  // Determine particle color based on corruption state
+  const getParticleColor = () => {
+    if (corruptionState === 'sanctified') return 'rgba(102, 126, 234, 0.8)'; // Blue/purple for sanctified
+    if (corruptionState === 'possessed') return 'rgba(168, 85, 247, 0.8)'; // Purple for possessed
+    return '#8b0000'; // Dark red for damned
+  };
 
   return (
     <div className={`app-container ${corruptionState}`} data-corruption={corruptionState}>
+      <ParticleBackground particleCount={28} color={getParticleColor()} />
       <CorruptionFilter corruptionLevel={corruptionLevel} />
-      <CorruptionOverlay />
+      <GitHubLink />
       <AudioControls
         isMuted={isMuted}
         currentDamnedTrack={currentDamnedTrack}

@@ -74,23 +74,14 @@ export function DashboardDynamic() {
           <div className="onboarding-text">
             <h3>{corruptionLevel === 0 ? '✨ Welcome to Secure Code Paradise! ✨' : 'Welcome to The Digital Exorcism!'}</h3>
             <p>
-              This is a Kiroween Hackathon demo showcasing Kiro's AI-powered development capabilities.
-              {useGenerated && ' This session uses dynamically generated vulnerabilities!'}
+              {corruptionLevel === 0 
+                ? '🎉 All demons banished! Your code is pure and secure.'
+                : `🎲 ${fullState?.generatedComponents?.length || 3} randomly generated OWASP demons haunt this codebase. Every playthrough is unique!`
+              }
             </p>
-            {useGenerated && (
-              <div style={{ 
-                marginTop: '1rem', 
-                padding: '0.75rem', 
-                background: 'rgba(138, 43, 226, 0.2)', 
-                borderRadius: '8px',
-                border: '1px solid rgba(138, 43, 226, 0.4)'
-              }}>
-                <p style={{ margin: 0, fontSize: '0.9rem' }}>
-                  🎲 <strong>Dynamic Mode Active!</strong> This session has {fullState?.generatedComponents?.length} unique vulnerabilities.
-                  Each playthrough is different!
-                </p>
-              </div>
-            )}
+            <p style={{ fontSize: '0.9rem', opacity: 0.8, margin: '0.5rem 0 0 0' }}>
+              A Kiroween Hackathon demo powered by Kiro
+            </p>
           </div>
         </div>
       </section>
@@ -102,9 +93,9 @@ export function DashboardDynamic() {
               {corruptionLevel === 0 ? '✨ Secure Code Sanctuary ✨' : 'The Digital Exorcism'}
             </h1>
             <p className="dashboard-subtitle">
-              {corruptionState === 'damned' && '💀 Your code is possessed by OWASP demons! Use Kiro to purify it.'}
-              {corruptionState === 'possessed' && '👻 Dark patterns lurk in your codebase... Keep fixing!'}
-              {corruptionState === 'sanctified' && '😇 The light of secure code shines through! All demons exorcised!'}
+              {corruptionState === 'damned' && '💀 Your code is possessed by OWASP demons! Summon Kiro the Digital Exorcist for salvation.'}
+              {corruptionState === 'possessed' && '👻 Dark spirits haunt your codebase... Ask Kiro the Ghost Hunter to banish them!'}
+              {corruptionState === 'sanctified' && '😇 The light of secure code shines through! Kiro the Guardian has cleansed all demons!'}
             </p>
           </div>
           <button 
