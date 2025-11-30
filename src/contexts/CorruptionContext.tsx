@@ -7,12 +7,27 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 import type { ReactNode } from 'react';
 
 interface Vulnerability {
-  type: 'prompt-injection' | 'hardcoded-secret' | 'xss';
+  type: string;
   file: string;
   pattern: string;
   description: string;
-  severity: 'high' | 'medium' | 'low';
+  severity: 'critical' | 'high' | 'medium' | 'low';
   count?: number;
+  componentName?: string;
+  owaspCategory?: string;
+  hints?: string[];
+  generatedAt?: string;
+}
+
+interface GeneratedComponent {
+  filename: string;
+  componentName: string;
+  vulnerabilityType: string;
+  owaspCategory: string;
+  difficulty: number;
+  hints: string[];
+  generatedAt: string;
+  templateId: string;
 }
 
 interface CorruptionState {
@@ -20,6 +35,10 @@ interface CorruptionState {
   vulnerabilities: Vulnerability[];
   timestamp: number;
   lastScan: string;
+  sessionId?: string;
+  difficulty?: 'easy' | 'hard';
+  generatedComponents?: GeneratedComponent[];
+  scanDuration?: number;
 }
 
 interface CorruptionContextValue {
@@ -28,7 +47,8 @@ interface CorruptionContextValue {
   isLoading: boolean;
   lastUpdate: Date | null;
   connectionStatus: 'connected' | 'disconnected' | 'error';
-  corruptionState: 'sanctified' | 'possessed' | 'damned';
+  corruptionState: 'sanctified' | 'possessed' | 'damned' | CorruptionState;
+  fullState?: CorruptionState;
 }
 
 const CorruptionContext = createContext<CorruptionContextValue | null>(null);
@@ -60,16 +80,62 @@ interface CorruptionProviderProps {
   pollInterval?: number;
 }
 
-export function CorruptionProvider({ children, pollInterval = 1000 }: CorruptionProviderProps) {
+export function CorruptionProvider({ children, pollInterval = 5000 }: CorruptionProviderProps) {
   const [corruptionLevel, setCorruptionLevel] = useState(100);
   const [vulnerabilities, setVulnerabilities] = useState<Vulnerability[]>([]);
+  const [fullState, setFullState] = useState<CorruptionState | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'disconnected' | 'error'>('disconnected');
   const [backoffDelay, setBackoffDelay] = useState(pollInterval);
   const [consecutiveErrors, setConsecutiveErrors] = useState(0);
+  const [lastTimestamp, setLastTimestamp] = useState<number>(0);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
+
+  // Pause polling during user interaction to prevent scroll jumping
+  useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout;
+    let interactionTimeout: NodeJS.Timeout;
+    
+    const handleScroll = () => {
+      setIsUserInteracting(true);
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setIsUserInteracting(false);
+      }, 2000); // Resume polling 2 seconds after scroll stops
+    };
+    
+    const handleInteraction = () => {
+      setIsUserInteracting(true);
+      clearTimeout(interactionTimeout);
+      interactionTimeout = setTimeout(() => {
+        setIsUserInteracting(false);
+      }, 1500);
+    };
+    
+    // Listen for various user interactions
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('wheel', handleScroll, { passive: true });
+    window.addEventListener('touchmove', handleScroll, { passive: true });
+    document.addEventListener('focusin', handleInteraction);
+    document.addEventListener('input', handleInteraction);
+    
+    return () => {
+      clearTimeout(scrollTimeout);
+      clearTimeout(interactionTimeout);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('touchmove', handleScroll);
+      document.removeEventListener('focusin', handleInteraction);
+      document.removeEventListener('input', handleInteraction);
+    };
+  }, []);
 
   const fetchCorruptionState = useCallback(async () => {
+    // Skip polling if user is actively interacting
+    if (isUserInteracting) {
+      return;
+    }
     try {
       // Add timestamp to prevent caching
       const timestamp = Date.now();
@@ -84,13 +150,19 @@ export function CorruptionProvider({ children, pollInterval = 1000 }: Corruption
 
       const state: CorruptionState = await response.json();
       
-      setCorruptionLevel(state.corruptionLevel);
-      setVulnerabilities(state.vulnerabilities);
-      setLastUpdate(new Date());
+      // Only update if the state has actually changed (check timestamp)
+      if (state.timestamp !== lastTimestamp) {
+        setCorruptionLevel(state.corruptionLevel);
+        setVulnerabilities(state.vulnerabilities);
+        setFullState(state);
+        setLastUpdate(new Date());
+        setLastTimestamp(state.timestamp);
+        injectCSSVariables(state.corruptionLevel);
+      }
+      
       setConnectionStatus('connected');
       setBackoffDelay(pollInterval); // Reset backoff on success
       setConsecutiveErrors(0); // Reset error count on success
-      injectCSSVariables(state.corruptionLevel);
       
     } catch (error) {
       console.warn('Failed to fetch corruption state:', error);
@@ -107,7 +179,7 @@ export function CorruptionProvider({ children, pollInterval = 1000 }: Corruption
     } finally {
       setIsLoading(false);
     }
-  }, [pollInterval]);
+  }, [pollInterval, isUserInteracting, lastTimestamp, consecutiveErrors]);
 
   useEffect(() => {
     // Initial fetch
@@ -118,6 +190,8 @@ export function CorruptionProvider({ children, pollInterval = 1000 }: Corruption
 
     return () => clearInterval(intervalId);
   }, [fetchCorruptionState, backoffDelay]);
+
+
 
   // Update CSS variables when corruption level changes
   useEffect(() => {
@@ -130,7 +204,8 @@ export function CorruptionProvider({ children, pollInterval = 1000 }: Corruption
     isLoading,
     lastUpdate,
     connectionStatus,
-    corruptionState: getCorruptionState(corruptionLevel)
+    corruptionState: getCorruptionState(corruptionLevel),
+    fullState
   };
 
   return (

@@ -58,14 +58,14 @@
     },
     {
       "id": "start-game",
-      "name": "🎮 Start The Digital Exorcism",
-      "description": "Resets the game to haunted state and prepares for gameplay. Click this button or ask Kiro to 'start the game'!",
+      "name": "🎮 Start The Digital Exorcism (Easy Mode)",
+      "description": "Starts a new game with 3 dynamically generated vulnerabilities. For hard mode or to choose difficulty, ask Kiro: 'start the game'",
       "trigger": {
         "type": "manual"
       },
       "action": {
         "type": "script",
-        "command": "node .kiro/hooks/start-game.cjs"
+        "command": "node .kiro/hooks/start-game-dynamic.cjs easy"
       },
       "enabled": true
     }

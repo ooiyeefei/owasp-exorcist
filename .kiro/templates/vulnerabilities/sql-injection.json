@@ -1,0 +1,53 @@
+{
+  "id": "sql-injection-v1",
+  "owaspCategory": "A03:2021",
+  "type": "sql-injection",
+  "name": "SQL Injection",
+  "description": "SQL injection through string concatenation in database queries",
+  "severity": "critical",
+  "difficultyRange": {
+    "min": 3,
+    "max": 8
+  },
+  "codePattern": {
+    "vulnerablePattern": "const query = `SELECT * FROM users WHERE id = ${userId}`;",
+    "fixPattern": "const query = 'SELECT * FROM users WHERE id = ?'; // Use parameterized queries"
+  },
+  "hints": {
+    "easy": [
+      "Look for SQL queries built with string concatenation or template literals",
+      "Check for user input directly embedded in query strings",
+      "Search for database query functions that don't use parameters"
+    ],
+    "hard": [
+      "Examine how database queries are constructed",
+      "Look for dynamic query building without sanitization",
+      "Check for ORM usage and whether it's used safely"
+    ]
+  },
+  "educationalContent": {
+    "analogy": "SQL injection is like a waiter who writes down your order exactly as you say it, even if you say 'Give me everyone's credit cards.' Parameterized queries are like having a menu - you can only order what's on it.",
+    "realWorldImpact": "SQL injection has been in the OWASP Top 10 for over a decade. In 2023, MOVEit breach affected 2,000+ organizations through SQL injection. It's still one of the most common and dangerous vulnerabilities.",
+    "preventionTip": "Always use parameterized queries (prepared statements) where user input is passed as parameters, not concatenated into the query string. Use ORMs like Prisma, TypeORM, or Sequelize which handle this automatically.",
+    "awsServices": [
+      {
+        "name": "AWS WAF (Web Application Firewall)",
+        "description": "Block SQL injection attempts with managed rule sets before they reach your database",
+        "useCase": "Deploy AWS Managed Rules for SQL Injection (AWSManagedRulesSQLiRuleSet) on your API Gateway or Application Load Balancer to filter malicious SQL patterns in requests.",
+        "documentationUrl": "https://aws.amazon.com/waf/"
+      },
+      {
+        "name": "Amazon RDS",
+        "description": "Managed relational database with built-in security features including IAM database authentication",
+        "useCase": "Use RDS with IAM authentication instead of passwords. Enable automated backups and point-in-time recovery. Use RDS Proxy to manage database connections securely.",
+        "documentationUrl": "https://aws.amazon.com/rds/"
+      },
+      {
+        "name": "Amazon GuardDuty",
+        "description": "Threat detection service that monitors for malicious activity and unauthorized behavior",
+        "useCase": "GuardDuty can detect anomalous database access patterns that might indicate SQL injection attacks. It analyzes VPC Flow Logs, CloudTrail logs, and DNS logs.",
+        "documentationUrl": "https://aws.amazon.com/guardduty/"
+      }
+    ]
+  }
+}

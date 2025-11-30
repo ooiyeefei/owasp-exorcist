@@ -1,0 +1,53 @@
+{
+  "id": "idor-v1",
+  "owaspCategory": "A01:2021",
+  "type": "idor",
+  "name": "Insecure Direct Object Reference",
+  "description": "Accessing resources without proper authorization checks",
+  "severity": "high",
+  "difficultyRange": {
+    "min": 4,
+    "max": 7
+  },
+  "codePattern": {
+    "vulnerablePattern": "const user = users[userId]; // No authorization check",
+    "fixPattern": "if (currentUser.id !== userId && !currentUser.isAdmin) throw new Error('Unauthorized');"
+  },
+  "hints": {
+    "easy": [
+      "Look for direct array/object access using user-provided IDs",
+      "Check if authorization is verified before accessing resources",
+      "Search for functions that fetch data without permission checks"
+    ],
+    "hard": [
+      "Examine data access patterns",
+      "Look for missing authorization middleware",
+      "Check if user context is validated before resource access"
+    ]
+  },
+  "educationalContent": {
+    "analogy": "IDOR is like a hotel where you can access any room just by knowing the room number - no key card required! Proper authorization is like requiring both the room number AND your key card.",
+    "realWorldImpact": "In 2019, Facebook exposed 419 million phone numbers through IDOR. In 2021, Parler's entire database was scraped due to IDOR vulnerabilities. It's a simple but devastating vulnerability.",
+    "preventionTip": "Always verify that the current user has permission to access the requested resource. Check ownership or role-based permissions before returning data. Never trust user-provided IDs alone.",
+    "awsServices": [
+      {
+        "name": "AWS IAM (Identity and Access Management)",
+        "description": "Enforce fine-grained access control policies for AWS resources",
+        "useCase": "Use IAM policies to control who can access what resources. Implement attribute-based access control (ABAC) to enforce permissions based on user attributes and resource tags.",
+        "documentationUrl": "https://aws.amazon.com/iam/"
+      },
+      {
+        "name": "Amazon Cognito",
+        "description": "User authentication and authorization service with built-in security features",
+        "useCase": "Use Cognito User Pools for authentication and Cognito Identity Pools for authorization. Implement custom authorizers to enforce resource-level permissions.",
+        "documentationUrl": "https://aws.amazon.com/cognito/"
+      },
+      {
+        "name": "AWS Lake Formation",
+        "description": "Centralized data access control for data lakes with fine-grained permissions",
+        "useCase": "Control access to data lake resources at the table, column, and row level. Lake Formation enforces permissions across AWS analytics services.",
+        "documentationUrl": "https://aws.amazon.com/lake-formation/"
+      }
+    ]
+  }
+}

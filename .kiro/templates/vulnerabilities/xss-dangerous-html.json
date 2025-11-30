@@ -1,0 +1,53 @@
+{
+  "id": "xss-dangerous-html-v1",
+  "owaspCategory": "A03:2021",
+  "type": "xss-dangerous-html",
+  "name": "XSS via dangerouslySetInnerHTML",
+  "description": "Cross-site scripting vulnerability through unsafe HTML rendering",
+  "severity": "high",
+  "difficultyRange": {
+    "min": 2,
+    "max": 6
+  },
+  "codePattern": {
+    "vulnerablePattern": "<div dangerouslySetInnerHTML={{ __html: userInput }} />",
+    "fixPattern": "<div>{userInput}</div> // or use DOMPurify.sanitize(userInput)"
+  },
+  "hints": {
+    "easy": [
+      "Look for 'dangerouslySetInnerHTML' in the code",
+      "Check where user input is being rendered as HTML",
+      "Search for components that display user-generated content"
+    ],
+    "hard": [
+      "Examine how user input flows through the component",
+      "Look for HTML rendering that bypasses React's default escaping",
+      "Check for any innerHTML or similar DOM manipulation"
+    ]
+  },
+  "educationalContent": {
+    "analogy": "Using dangerouslySetInnerHTML is like inviting a vampire into your home - once they're in, chaos ensues! React's default text rendering is like having garlic at every door.",
+    "realWorldImpact": "In 2018, British Airways was fined $230 million after an XSS attack stole 380,000 credit card numbers. XSS can steal user sessions, redirect to phishing sites, or inject malware.",
+    "preventionTip": "Always use React's default text rendering {variable} which automatically escapes HTML. If you MUST render HTML, use a sanitizer like DOMPurify to remove malicious scripts.",
+    "awsServices": [
+      {
+        "name": "AWS WAF (Web Application Firewall)",
+        "description": "Filter malicious web requests and block XSS attacks at the edge before they reach your application",
+        "useCase": "Deploy WAF rules on your CloudFront distribution or Application Load Balancer. Use AWS Managed Rules for XSS protection (AWSManagedRulesKnownBadInputsRuleSet) to automatically block common XSS patterns.",
+        "documentationUrl": "https://aws.amazon.com/waf/"
+      },
+      {
+        "name": "Amazon CloudFront",
+        "description": "CDN that can set security headers like Content-Security-Policy to prevent XSS execution",
+        "useCase": "Configure CloudFront to add CSP headers: 'Content-Security-Policy: default-src \\'self\\'; script-src \\'self\\'' to prevent inline scripts from executing.",
+        "documentationUrl": "https://aws.amazon.com/cloudfront/"
+      },
+      {
+        "name": "AWS Shield",
+        "description": "DDoS protection service that also helps protect against application layer attacks",
+        "useCase": "Shield Advanced provides additional protection against sophisticated attacks and includes AWS WAF at no extra cost.",
+        "documentationUrl": "https://aws.amazon.com/shield/"
+      }
+    ]
+  }
+}

@@ -6,74 +6,99 @@
 
 Your code is haunted. OWASP demons have possessed your React components, and only you (with Kiro's help) can perform the exorcism.
 
-The Digital Exorcism is a meta-application that monitors its own source code for security vulnerabilities and responds with visual/audio degradation. As you use Kiro to fix vulnerabilities, the app "heals" itself in real-time - demonstrating Kiro's power as an AI development partner.
+The Digital Exorcism is a meta-application where **Kiro is the game master**. It doesn't just help you play - it designs, builds, and orchestrates the entire experience in real-time. Kiro fetches current OWASP data, generates unique vulnerabilities, configures detection patterns, and guides you through fixes with educational content and AWS security recommendations.
+
+**The game doesn't exist until you play it.** Every session is dynamically created by AI based on your skill level and current security standards.
 
 ---
 
-## 🏆 Why This Wins
+## Consideration and Design
 
-### 1. **Showcases ALL Kiro Features**
+### 1. **Kiro as Game Master - AI Orchestrates Everything**
 
-We didn't just use Kiro - we built an experience that demonstrates its full ecosystem:
+**This isn't just using Kiro - Kiro IS the game.** Every aspect is dynamically controlled by AI:
+
+**🤖 Dynamic Game Generation**
+- Fetches latest OWASP Top 10 via MCP at game start
+- Understands user skill level (easy/hard mode)
+- Generates 3-5 unique vulnerable components on the fly
+- Configures detection patterns for auto-scanning
+- Sets up AWS security recommendations per vulnerability
+
+**🎯 Steering Documents** - AI personality & orchestration
+- `game-commands.md` - Dynamic game flow and MCP integration
+- `owasp-guide.md` - Security fix patterns with AWS services
+- `exorcist-personality.md` - Witty, educational responses
+- `security-lessons.md` - Bite-sized security education
+- Located in `.kiro/steering/`
+
+**🔄 Agent Hooks** - Self-modifying automation
+- `start-game-dynamic.cjs` - Generates unique vulnerabilities each session
+- `measure-corruption.cjs` - Uses dynamic detection patterns from session data
+- `celebration-toast.cjs` - Victory celebrations at 0% corruption
+- Hooks adapt to generated content automatically!
+- Located in `.kiro/hooks/`
+
+**🔌 MCP Integration** - Real-time OWASP data
+- `get_owasp_top_10` - Fetches current vulnerability database
+- `get_vulnerability_details` - Deep-dive education on specific types
+- `get_corruption_level` - Reads game state in real-time
+- Kiro uses these to stay current with security standards
+- Located in `src/mcp/corruption-server.ts`
 
 **📋 Specs** - Complete spec-driven development
-- Requirements with EARS patterns
-- Design with correctness properties  
+- Requirements with EARS patterns and acceptance criteria
+- Design with correctness properties for testing
 - Task breakdown with implementation plan
 - Located in `.kiro/specs/digital-exorcism/`
 
-**🎯 Steering Documents** - AI personality & guidance
-- `exorcist-personality.md` - Witty, Halloween-themed responses
-- `game-commands.md` - Game flow orchestration
-- `owasp-guide.md` - Security fix patterns
-- `security-lessons.md` - Educational content
-- Located in `.kiro/steering/`
-
-**🔄 Agent Hooks** - Automated workflows
-- `measure-corruption.cjs` - Auto-scans code on file save
-- `start-game.cjs` - One-command game initialization
-- `celebration-toast.cjs` - Victory celebrations
-- Located in `.kiro/hooks/`
-
-**🔌 MCP Integration** - Custom tools
-- `corruption-sensor` - Reads spiritual health of code
-- `get_owasp_top_10` - Fetches vulnerability database
-- `get_vulnerability_details` - Deep-dive education
-- Located in `src/mcp/corruption-server.ts`
-
 ### 2. **Solves a Real Problem**
 
-Security education is boring. We made it fun.
+Security education is boring. We made it fun AND infinitely replayable.
 
-- **Interactive learning**: Fix real vulnerabilities, see immediate results
+- **Dynamic Generation**: Every session is unique - 8 OWASP templates, random selection
+- **Interactive Learning**: Fix real vulnerabilities, see immediate results
+- **AWS Security Education**: Learn which cloud services prevent each vulnerability
 - **Gamification**: Corruption meter, demon metaphors, difficulty modes
-- **Educational**: Each fix includes bite-sized security lessons
-- **Practical**: Uses actual OWASP Top 10 patterns
+- **Educational**: Each fix includes security lessons + real-world breach examples
+- **Practical**: Uses actual OWASP Top 10 patterns with production-ready solutions
 
 ### 3. **Technical Innovation**
 
-**Meta-Application Design**
-- App monitors its own source code
-- Real-time visual/audio feedback based on code quality
-- Self-healing UI that responds to fixes
+**AI Game Master Architecture**
+- Kiro fetches OWASP data via MCP at runtime
+- Generates unique vulnerable components dynamically
+- Configures detection patterns on the fly
+- Hooks adapt to generated content automatically
+- No static game files - everything is created per session
 
 **Kiro-Powered Workflow**
 ```bash
 User: "start the game"
-Kiro: [Resets vulnerabilities, starts server, guides gameplay]
+Kiro: [Fetches OWASP data via MCP]
+Kiro: "Choose easy or hard mode?"
+User: "easy"
+Kiro: [Generates 3 unique vulnerabilities]
+Kiro: [Configures detection patterns]
+Kiro: [Starts server, provides link]
+Kiro: "3 demons summoned! Open http://localhost:5173"
 
 User: "fix the security vulnerability"  
-Kiro: [Applies OWASP best practices, explains why, celebrates]
+Kiro: [Applies OWASP best practices]
+Kiro: [Explains vulnerability + AWS solutions]
+Kiro: [Runs measure hook with dynamic patterns]
+Kiro: "Corruption dropped to 67%! 2 demons remain!"
 
 User: "what is the current corruption level?"
-Kiro: [Uses MCP tool to check, reports status]
+Kiro: [Uses MCP tool to check]
+Kiro: "67% - You're making progress! Keep going!"
 ```
 
-**Smart Architecture**
-- Hook-based automation (no manual scripts!)
-- MCP tools for extensibility
-- Steering for personality
-- Specs for documentation
+**Self-Modifying System**
+- Hooks use detection patterns from generated session data
+- Measure script adapts to any vulnerability type
+- No hardcoded patterns - everything is dynamic
+- Infinite replayability with consistent detection
 
 ### 4. **User Experience**
 
@@ -113,29 +138,40 @@ npm install
 
 ### The Magic Behind It
 
-**1. Specs Drive Development**
+**1. MCP Fetches Real-Time OWASP Data**
+- `get_owasp_top_10` - Current vulnerability database
+- `get_vulnerability_details` - Deep-dive education
+- `get_corruption_level` - Game state monitoring
+- Kiro stays current with latest security standards
+- Implemented in `src/mcp/corruption-server.ts`
+
+**2. Dynamic Generation Creates Unique Games**
+- Selects 3-5 vulnerabilities from 8 OWASP templates
+- Generates React components with real vulnerable code
+- Creates detection patterns for auto-scanning
+- Configures AWS security recommendations
+- History tracking ensures variety across sessions
+- Located in `.kiro/hooks/start-game-dynamic.cjs`
+
+**3. Hooks Adapt to Generated Content**
+- `measure-corruption.cjs` uses detection patterns from session data
+- No hardcoded patterns - works with any vulnerability type
+- Auto-scans on file save with dynamic detection
+- Preserves original total for correct percentage math
+- Configured in `.kiro/hooks/hooks.json`
+
+**4. Steering Orchestrates the Experience**
+- `game-commands.md` - Game flow with MCP integration
+- `owasp-guide.md` - Security fixes + AWS services
+- `exorcist-personality.md` - Witty, educational responses
+- Kiro becomes "The Digital Exorcist" game master
+- Defined in `.kiro/steering/`
+
+**5. Specs Document the System**
 - Complete requirements with acceptance criteria
 - Design with correctness properties
 - Task breakdown for implementation
 - All in `.kiro/specs/digital-exorcism/`
-
-**2. Steering Shapes Personality**
-- Kiro becomes "The Digital Exorcist"
-- Witty, Halloween-themed responses
-- Educational security lessons
-- Defined in `.kiro/steering/`
-
-**3. Hooks Automate Workflows**
-- File save → Auto-scan for vulnerabilities
-- Game start → Reset & initialize
-- Victory → Celebration
-- Configured in `.kiro/hooks/hooks.json`
-
-**4. MCP Extends Capabilities**
-- Custom corruption sensor tool
-- OWASP knowledge base
-- Vulnerability deep-dives
-- Implemented in `src/mcp/corruption-server.ts`
 
 ---
 
@@ -181,44 +217,63 @@ Each fix includes:
 | **Hooks** | Auto-scan on save, game initialization | `.kiro/hooks/*.cjs` |
 | **MCP** | Custom corruption sensor + OWASP tools | `src/mcp/corruption-server.ts` |
 
-### Architecture
+### Architecture - Kiro as Game Master
 
 ```
+User: "start the game"
+         │
+         ▼
 ┌─────────────────────────────────────────┐
-│  Kiro IDE (AI Development Partner)     │
+│  Kiro (AI Game Master)                  │
 ├─────────────────────────────────────────┤
-│  • Specs: Requirements → Design → Tasks│
-│  • Steering: Personality & Guidance    │
-│  • Hooks: Automated Workflows          │
-│  • MCP: Custom Tools                   │
+│  1. Fetches OWASP data via MCP          │
+│  2. Asks difficulty preference          │
+│  3. Generates unique vulnerabilities    │
+│  4. Configures detection patterns       │
+│  5. Starts server & guides gameplay     │
 └──────────────┬──────────────────────────┘
                │
                ▼
 ┌─────────────────────────────────────────┐
-│  React Dashboard (Self-Healing UI)     │
+│  Dynamic Generation System              │
 ├─────────────────────────────────────────┤
-│  • Polls corruption-state.json         │
-│  • Updates visuals/audio in real-time  │
-│  • Shows vulnerabilities & progress    │
+│  • 8 OWASP templates                    │
+│  • Random selection (3-5 vulns)         │
+│  • React component generation           │
+│  • Detection pattern configuration      │
+│  • AWS security recommendations         │
 └──────────────┬──────────────────────────┘
                │
                ▼
 ┌─────────────────────────────────────────┐
-│  Vulnerable Components (The Demons)    │
+│  Self-Modifying Hooks                   │
 ├─────────────────────────────────────────┤
-│  • Hardcoded secrets                   │
-│  • XSS vulnerabilities                 │
-│  • Code execution risks                │
+│  • Use detection patterns from session  │
+│  • Adapt to any vulnerability type      │
+│  • Auto-scan on file save               │
+│  • Update corruption in real-time       │
+└──────────────┬──────────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────────┐
+│  React Dashboard (Self-Healing UI)      │
+├─────────────────────────────────────────┤
+│  • Polls corruption-state.json          │
+│  • Updates visuals/audio in real-time   │
+│  • Shows vulnerabilities & progress     │
+│  • Displays AWS security recommendations│
 └─────────────────────────────────────────┘
 ```
 
 ### Innovation Points
 
-1. **Meta-Application**: App monitors its own code
-2. **Kiro Orchestration**: One command starts everything
-3. **Educational Gaming**: Learn security through play
-4. **Real-time Feedback**: See fixes take effect immediately
-5. **Extensible**: Easy to add more vulnerabilities/modes
+1. **AI Game Master**: Kiro designs, builds, and orchestrates everything dynamically
+2. **Dynamic Generation**: Unique vulnerabilities every session - infinite replayability
+3. **Self-Modifying Hooks**: Detection patterns adapt to generated content automatically
+4. **MCP Integration**: Real-time OWASP data fetching for current security standards
+5. **AWS Education**: Learn production security with every fix
+6. **Meta-Application**: App monitors its own code and heals in real-time
+7. **One Command Start**: "start the game" triggers complete AI orchestration
 
 ---
 
@@ -239,31 +294,68 @@ Each fix includes:
 
 ---
 
+## 🎯 Key Technical Achievements
+
+### 1. **Dynamic Game Generation**
+- 8 OWASP vulnerability templates
+- Random selection ensures variety
+- History tracking prevents repetition
+- Generates React components on the fly
+- Configures detection patterns automatically
+
+### 2. **Self-Modifying Hooks**
+- `measure-corruption.cjs` uses detection patterns from session data
+- No hardcoded vulnerability patterns
+- Adapts to any vulnerability type automatically
+- Preserves original total for correct percentage math
+
+### 3. **MCP Integration for Real-Time Data**
+- Fetches current OWASP Top 10 at game start
+- Provides deep-dive education on specific vulnerabilities
+- Monitors game state in real-time
+- Keeps content current with security standards
+
+### 4. **AWS Security Education**
+- Every vulnerability includes AWS service recommendations
+- Practical use cases for Secrets Manager, WAF, CloudTrail, etc.
+- Real-world breach examples (Equifax, British Airways, Uber)
+- Direct links to AWS documentation
+
+### 5. **Infinite Replayability**
+- Thousands of possible vulnerability combinations
+- Different code patterns each session
+- Varied AWS recommendations
+- Never the same game twice
+
 ## 🚀 Future Enhancements
 
 The architecture supports easy expansion:
 
-- **More Vulnerabilities**: SQL injection, CSRF, etc.
+- **More Vulnerabilities**: Additional OWASP templates (CSRF, XXE, etc.)
 - **Multiplayer Mode**: Compete to fix fastest
-- **Leaderboards**: Track exorcism speed
+- **Leaderboards**: Track exorcism speed and accuracy
 - **Custom Challenges**: User-created vulnerability sets
 - **CI/CD Integration**: Run as security training in pipelines
+- **Multi-Language Support**: Generate vulnerabilities in Python, Java, etc.
 
 ---
 
 ## 🏁 Conclusion
 
-The Digital Exorcism isn't just a game - it's a **proof of concept** for how Kiro transforms development:
+The Digital Exorcism isn't just a game - it's a **proof of concept** for AI as a game master:
 
-✅ **Specs** guide the build  
-✅ **Steering** shapes the experience  
-✅ **Hooks** automate the workflow  
-✅ **MCP** extends capabilities  
-✅ **AI** partners with developers  
+✅ **MCP** fetches real-time OWASP data  
+✅ **Dynamic Generation** creates unique challenges every session  
+✅ **Self-Modifying Hooks** adapt to generated content automatically  
+✅ **Steering** orchestrates the entire experience  
+✅ **Specs** document the system  
+✅ **Kiro** is the game master - designing, building, guiding in real-time  
 
-We didn't just use Kiro's features - we showcased how they work together to create something impossible to build alone.
+**The Innovation:** The game doesn't exist until you play it. Kiro generates everything dynamically based on current security standards and your skill level.
 
-**The result?** An educational, entertaining, and technically impressive demonstration of AI-powered development.
+**The Result:** An educational, infinitely replayable, and technically impressive demonstration of AI-powered development where the AI IS the game master.
+
+**Key Insight:** We didn't just use Kiro to build a game - we made Kiro the game itself.
 
 ## 🎃 Happy Kiroween! 👻
 

@@ -1,24 +1,133 @@
 {
-  "corruptionLevel": 67,
+  "corruptionLevel": 100,
+  "totalVulnerabilities": 3,
   "vulnerabilities": [
     {
-      "type": "prompt-injection",
-      "file": "InjectionComponent.tsx",
-      "pattern": "/dangerouslySetInnerHTML/gi",
-      "description": "Unsafe HTML rendering detected (dangerouslySetInnerHTML)",
-      "severity": "high",
-      "count": 1
+      "type": "missing-validation",
+      "file": "generated/VulnerableMissingInputValidation1.tsx",
+      "pattern": "const processData = (input) => { return database.save(input); }",
+      "description": "Accepting untrusted input without validation or sanitization",
+      "severity": "medium",
+      "count": 1,
+      "componentName": "VulnerableMissingInputValidation1",
+      "owaspCategory": "A04:2021",
+      "hints": [
+        "Look for functions that accept user input without validation",
+        "Check if input is sanitized before being used",
+        "Search for form submissions without validation logic"
+      ],
+      "generatedAt": "2025-11-30T04:13:42.364Z",
+      "detection": {
+        "type": "comment",
+        "pattern": "No input validation implemented",
+        "description": "Look for missing input validation comment",
+        "fixIndicators": [
+          "validate",
+          "schema",
+          "zod",
+          "yup"
+        ]
+      }
     },
     {
-      "type": "xss",
-      "file": "UnsafeComponent.tsx",
-      "pattern": "/eval\\s*\\(/gi",
-      "description": "XSS vulnerability pattern detected (eval)",
-      "severity": "high",
-      "count": 1
+      "type": "insufficient-logging",
+      "file": "generated/VulnerableInsufficientSecurityLogging2.tsx",
+      "pattern": "const login = (user, pass) => { if (auth(user, pass)) return token; }",
+      "description": "Missing or inadequate logging of security events",
+      "severity": "medium",
+      "count": 1,
+      "componentName": "VulnerableInsufficientSecurityLogging2",
+      "owaspCategory": "A09:2021",
+      "hints": [
+        "Look for authentication functions without logging",
+        "Check if security events (login, logout, access denied) are logged",
+        "Search for error handling without logging"
+      ],
+      "generatedAt": "2025-11-30T04:13:42.364Z",
+      "detection": {
+        "type": "comment",
+        "pattern": "No security logging implemented",
+        "description": "Look for missing security logging comment",
+        "fixIndicators": [
+          "logger",
+          "audit",
+          "securityLog"
+        ]
+      }
+    },
+    {
+      "type": "code-injection",
+      "file": "generated/VulnerableCodeInjectionviaeval3.tsx",
+      "pattern": "const result = eval(userCode);",
+      "description": "Arbitrary code execution through eval() or similar dynamic code execution",
+      "severity": "critical",
+      "count": 1,
+      "componentName": "VulnerableCodeInjectionviaeval3",
+      "owaspCategory": "A03:2021",
+      "hints": [
+        "Search for 'eval(' in the codebase",
+        "Look for dynamic code execution functions",
+        "Check for any code that runs user-provided strings as JavaScript"
+      ],
+      "generatedAt": "2025-11-30T04:13:42.364Z",
+      "detection": {
+        "type": "regex",
+        "pattern": "eval\\s*\\(",
+        "description": "Look for eval() function calls",
+        "fixIndicators": [
+          "removed eval",
+          "safe alternative"
+        ]
+      }
     }
   ],
-  "timestamp": 1764311259499,
-  "lastScan": "2025-11-28T06:27:39.499Z",
+  "sessionId": "46945f763e0a3ff6",
+  "difficulty": "easy",
+  "generatedComponents": [
+    {
+      "filename": "VulnerableMissingInputValidation1.tsx",
+      "componentName": "VulnerableMissingInputValidation1",
+      "vulnerabilityType": "missing-validation",
+      "owaspCategory": "A04:2021",
+      "difficulty": 2,
+      "hints": [
+        "Look for functions that accept user input without validation",
+        "Check if input is sanitized before being used",
+        "Search for form submissions without validation logic"
+      ],
+      "generatedAt": "2025-11-30T04:13:42.362Z",
+      "templateId": "missing-validation-v1"
+    },
+    {
+      "filename": "VulnerableInsufficientSecurityLogging2.tsx",
+      "componentName": "VulnerableInsufficientSecurityLogging2",
+      "vulnerabilityType": "insufficient-logging",
+      "owaspCategory": "A09:2021",
+      "difficulty": 3,
+      "hints": [
+        "Look for authentication functions without logging",
+        "Check if security events (login, logout, access denied) are logged",
+        "Search for error handling without logging"
+      ],
+      "generatedAt": "2025-11-30T04:13:42.363Z",
+      "templateId": "insufficient-logging-v1"
+    },
+    {
+      "filename": "VulnerableCodeInjectionviaeval3.tsx",
+      "componentName": "VulnerableCodeInjectionviaeval3",
+      "vulnerabilityType": "code-injection",
+      "owaspCategory": "A03:2021",
+      "difficulty": 3,
+      "hints": [
+        "Search for 'eval(' in the codebase",
+        "Look for dynamic code execution functions",
+        "Check for any code that runs user-provided strings as JavaScript"
+      ],
+      "generatedAt": "2025-11-30T04:13:42.364Z",
+      "templateId": "code-injection-eval-v1"
+    }
+  ],
+  "timestamp": 1764476022364,
+  "lastScan": "2025-11-30T04:13:42.364Z",
   "scanDuration": 0
 }

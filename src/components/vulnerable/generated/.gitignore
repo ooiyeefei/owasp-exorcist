@@ -1,0 +1,9 @@
+# Ignore all generated vulnerable components
+*.tsx
+*.ts
+*.jsx
+*.js
+
+# Keep this directory structure
+!.gitignore
+!README.md

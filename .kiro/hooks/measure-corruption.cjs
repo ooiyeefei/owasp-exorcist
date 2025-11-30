@@ -1,135 +1,133 @@
 /**
- * The Ritual - Agent Hook for measuring code corruption
- * Scans vulnerable components for OWASP security vulnerabilities
- * and calculates a corruption score (0-100)
+ * Dynamic Corruption Measurement - For Generated Components
+ * Preserves session data and component metadata
  */
 
 const fs = require('fs');
 const path = require('path');
 
-// Vulnerability patterns with weights
-const PATTERNS = {
-  promptInjection: {
-    regex: /dangerouslySetInnerHTML/gi,
-    weight: 33,
-    type: 'prompt-injection',
-    description: 'Unsafe HTML rendering detected (dangerouslySetInnerHTML)'
-  },
-  hardcodedSecret: {
-    regex: /sk-[a-zA-Z0-9]{20,}/gi,
-    weight: 33,
-    type: 'hardcoded-secret',
-    description: 'Hardcoded API key or secret detected'
-  },
-  xss: {
-    regex: /eval\s*\(/gi,
-    weight: 34,
-    type: 'xss',
-    description: 'XSS vulnerability pattern detected (eval)'
-  }
-};
-
-// Directory to scan
-const VULNERABLE_DIR = path.join(process.cwd(), 'src', 'components', 'vulnerable');
+const GENERATED_DIR = path.join(process.cwd(), 'src', 'components', 'vulnerable', 'generated');
 const OUTPUT_FILE = path.join(process.cwd(), 'public', 'corruption-state.json');
 
-function scanFile(filePath) {
-  const vulnerabilities = [];
-  
+function checkVulnerabilityFixed(filePath, detection) {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
-    const fileName = path.basename(filePath);
     
     // Remove comments to avoid false positives
     const codeOnly = content
       .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
       .replace(/\/\/.*/g, ''); // Remove line comments
     
-    for (const [key, pattern] of Object.entries(PATTERNS)) {
-      const matches = codeOnly.match(pattern.regex);
-      if (matches && matches.length > 0) {
-        vulnerabilities.push({
-          type: pattern.type,
-          file: fileName,
-          pattern: pattern.regex.toString(),
-          description: pattern.description,
-          severity: 'high',
-          count: matches.length
-        });
-      }
+    // Check based on detection type
+    let hasVulnerablePattern = false;
+    
+    switch(detection.type) {
+      case 'regex':
+        hasVulnerablePattern = new RegExp(detection.pattern).test(codeOnly);
+        break;
+      
+      case 'string':
+        hasVulnerablePattern = codeOnly.includes(detection.pattern);
+        break;
+      
+      case 'comment':
+        // For comment type, check if the vulnerable comment is still there
+        hasVulnerablePattern = content.includes(detection.pattern); // Check full content including comments
+        break;
+      
+      default:
+        hasVulnerablePattern = codeOnly.includes(detection.pattern);
     }
+    
+    // Check if any fix indicators are present
+    const hasFixIndicators = detection.fixIndicators && detection.fixIndicators.some(indicator => 
+      codeOnly.includes(indicator)
+    );
+    
+    // For 'comment' type: fixed if comment is removed OR fix indicators are present
+    // For other types: fixed if vulnerable pattern is gone
+    if (detection.type === 'comment') {
+      return !hasVulnerablePattern || hasFixIndicators;
+    } else {
+      return !hasVulnerablePattern;
+    }
+    
   } catch (error) {
     console.error(`Error reading file ${filePath}:`, error.message);
+    return false;
   }
-  
-  return vulnerabilities;
-}
-
-function calculateCorruption(vulnerabilities) {
-  const uniqueTypes = new Set(vulnerabilities.map(v => v.type));
-  let score = 0;
-  
-  for (const type of uniqueTypes) {
-    const pattern = Object.values(PATTERNS).find(p => p.type === type);
-    if (pattern) {
-      score += pattern.weight;
-    }
-  }
-  
-  return Math.min(score, 100);
 }
 
 function main() {
-  const allVulnerabilities = [];
-  
-  // Check if vulnerable directory exists
-  if (!fs.existsSync(VULNERABLE_DIR)) {
-    console.log('Vulnerable directory does not exist yet. Creating initial state.');
-    writeState(100, []);
+  // Read existing state
+  if (!fs.existsSync(OUTPUT_FILE)) {
+    console.log('No corruption state found. Run start-game-dynamic.cjs first!');
     return;
   }
   
-  // Scan all .tsx files in vulnerable directory
+  let state;
   try {
-    const files = fs.readdirSync(VULNERABLE_DIR);
-    const tsxFiles = files.filter(f => f.endsWith('.tsx'));
-    
-    for (const file of tsxFiles) {
-      const filePath = path.join(VULNERABLE_DIR, file);
-      const vulnerabilities = scanFile(filePath);
-      allVulnerabilities.push(...vulnerabilities);
-    }
+    const stateContent = fs.readFileSync(OUTPUT_FILE, 'utf-8');
+    state = JSON.parse(stateContent);
   } catch (error) {
-    console.error('Error scanning directory:', error.message);
+    console.error('Error reading corruption state:', error.message);
+    return;
   }
   
-  const corruptionLevel = calculateCorruption(allVulnerabilities);
-  writeState(corruptionLevel, allVulnerabilities);
-}
-
-function writeState(corruptionLevel, vulnerabilities) {
-  const state = {
-    corruptionLevel,
-    vulnerabilities,
-    timestamp: Date.now(),
-    lastScan: new Date().toISOString(),
-    scanDuration: 0
-  };
-  
-  try {
-    // Ensure public directory exists
-    const publicDir = path.dirname(OUTPUT_FILE);
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true });
-    }
-    
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(state, null, 2));
-    console.log(`Corruption level: ${corruptionLevel}%`);
-    console.log(`Vulnerabilities found: ${vulnerabilities.length}`);
-  } catch (error) {
-    console.error('Error writing state file:', error.message);
+  // Check if this is a dynamic session
+  if (!state.generatedComponents || state.generatedComponents.length === 0) {
+    console.log('Not a dynamic session. Using legacy measure-corruption.cjs');
+    return;
   }
+  
+  console.log(`Checking ${state.vulnerabilities.length} vulnerabilities...`);
+  
+  // Get the original total from session start (stored in generatedComponents)
+  const originalTotal = state.totalVulnerabilities || state.generatedComponents.length;
+  
+  console.log(`Checking ${state.vulnerabilities.length} vulnerabilities...`);
+  
+  // Check each vulnerability
+  const stillVulnerable = [];
+  for (const vuln of state.vulnerabilities) {
+    // Handle both "generated/File.tsx" and "File.tsx" formats
+    const fileName = vuln.file.replace('generated/', '');
+    const filePath = path.join(GENERATED_DIR, fileName);
+    
+    // Use detection pattern from vulnerability data
+    const detection = vuln.detection || {
+      type: 'string',
+      pattern: vuln.pattern,
+      fixIndicators: []
+    };
+    
+    const isFixed = checkVulnerabilityFixed(filePath, detection);
+    
+    if (!isFixed) {
+      stillVulnerable.push(vuln);
+      console.log(`  ❌ ${vuln.componentName} - Still vulnerable`);
+    } else {
+      console.log(`  ✅ ${vuln.componentName} - FIXED!`);
+    }
+  }
+  
+  // Calculate new corruption level based on ORIGINAL total, not current remaining
+  const fixedCount = originalTotal - stillVulnerable.length;
+  const corruptionLevel = Math.round((stillVulnerable.length / originalTotal) * 100);
+  
+  // Update state
+  state.corruptionLevel = corruptionLevel;
+  state.vulnerabilities = stillVulnerable;
+  state.totalVulnerabilities = originalTotal; // Preserve original total
+  state.timestamp = Date.now();
+  state.lastScan = new Date().toISOString();
+  
+  // Write updated state
+  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(state, null, 2));
+  
+  console.log(`\nCorruption level: ${corruptionLevel}%`);
+  console.log(`Fixed: ${fixedCount}/${originalTotal}`);
+  console.log(`Remaining: ${stillVulnerable.length}`);
 }
 
-// Run the ritual
 main();

@@ -1,0 +1,53 @@
+{
+  "id": "code-injection-eval-v1",
+  "owaspCategory": "A03:2021",
+  "type": "code-injection",
+  "name": "Code Injection via eval()",
+  "description": "Arbitrary code execution through eval() or similar dynamic code execution",
+  "severity": "critical",
+  "difficultyRange": {
+    "min": 3,
+    "max": 7
+  },
+  "codePattern": {
+    "vulnerablePattern": "const result = eval(userCode);",
+    "fixPattern": "// Don't execute user code. Use safe alternatives like JSON.parse() for data or a sandboxed interpreter for expressions."
+  },
+  "hints": {
+    "easy": [
+      "Search for 'eval(' in the codebase",
+      "Look for dynamic code execution functions",
+      "Check for any code that runs user-provided strings as JavaScript"
+    ],
+    "hard": [
+      "Examine how user input is processed",
+      "Look for string-to-code conversion",
+      "Check for Function constructor or similar dynamic execution"
+    ]
+  },
+  "educationalContent": {
+    "analogy": "Using eval() is like giving a stranger the keys to your car AND your house. It executes ANY code, including malicious commands that can steal data or install malware.",
+    "realWorldImpact": "The Equifax breach (143 million people affected) started with code execution vulnerabilities. eval() is the #1 way attackers inject malicious code. Most security tools flag it immediately.",
+    "preventionTip": "Never use eval() with user input. For JSON, use JSON.parse(). For math expressions, use a safe math library. For user code execution, use a sandboxed environment like Web Workers or don't allow it at all.",
+    "awsServices": [
+      {
+        "name": "AWS Lambda",
+        "description": "Run code in isolated execution environments with limited permissions and automatic scaling",
+        "useCase": "If you must execute user code, run it in isolated Lambda functions with minimal IAM permissions. Lambda provides sandboxing and resource limits to contain potential exploits.",
+        "documentationUrl": "https://aws.amazon.com/lambda/"
+      },
+      {
+        "name": "AWS IAM (Identity and Access Management)",
+        "description": "Enforce least-privilege access to prevent code execution exploits from accessing sensitive resources",
+        "useCase": "Use IAM roles with minimal permissions for your application. Even if code injection occurs, attackers can't access resources they don't have permissions for.",
+        "documentationUrl": "https://aws.amazon.com/iam/"
+      },
+      {
+        "name": "Amazon Inspector",
+        "description": "Automated security assessment service that scans for vulnerabilities in application code and dependencies",
+        "useCase": "Inspector can detect vulnerable dependencies and code patterns that might lead to code injection. Integrate it into your CI/CD pipeline for continuous security scanning.",
+        "documentationUrl": "https://aws.amazon.com/inspector/"
+      }
+    ]
+  }
+}

@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { CorruptionProvider, useCorruption } from './contexts/CorruptionContext';
 import { SeanceOverlay } from './components/SeanceOverlay';
-import { Dashboard } from './components/Dashboard';
+import { DashboardDynamic as Dashboard } from './components/DashboardDynamic';
 import { CorruptionFilter } from './components/VisualEffects/CorruptionFilter';
 import { CorruptionOverlay } from './components/VisualEffects/CorruptionOverlay';
 import { AudioControls } from './components/AudioControls';

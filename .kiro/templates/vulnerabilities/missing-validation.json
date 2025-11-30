@@ -1,0 +1,53 @@
+{
+  "id": "missing-validation-v1",
+  "owaspCategory": "A04:2021",
+  "type": "missing-validation",
+  "name": "Missing Input Validation",
+  "description": "Accepting untrusted input without validation or sanitization",
+  "severity": "medium",
+  "difficultyRange": {
+    "min": 2,
+    "max": 6
+  },
+  "codePattern": {
+    "vulnerablePattern": "const processData = (input) => { return database.save(input); }",
+    "fixPattern": "const processData = (input) => { if (!isValid(input)) throw new Error('Invalid input'); return database.save(sanitize(input)); }"
+  },
+  "hints": {
+    "easy": [
+      "Look for functions that accept user input without validation",
+      "Check if input is sanitized before being used",
+      "Search for form submissions without validation logic"
+    ],
+    "hard": [
+      "Examine data flow from user input to storage/processing",
+      "Look for missing schema validation",
+      "Check if input types and formats are enforced"
+    ]
+  },
+  "educationalContent": {
+    "analogy": "Missing input validation is like a bouncer who lets anyone into the club without checking IDs - you'll get troublemakers! Validation is your bouncer checking everyone at the door.",
+    "realWorldImpact": "Input validation failures led to the 2017 Equifax breach. Attackers exploited unvalidated input in Apache Struts to gain access. Proper validation could have prevented the breach affecting 147 million people.",
+    "preventionTip": "Always validate input on the server side (never trust client-side validation alone). Use schema validation libraries like Zod, Joi, or Yup. Whitelist valid inputs rather than blacklisting bad ones.",
+    "awsServices": [
+      {
+        "name": "AWS WAF (Web Application Firewall)",
+        "description": "Validate and sanitize input at the application layer with custom rules",
+        "useCase": "Create WAF rules to validate request parameters, headers, and body content. Block requests that don't match expected patterns before they reach your application.",
+        "documentationUrl": "https://aws.amazon.com/waf/"
+      },
+      {
+        "name": "Amazon API Gateway",
+        "description": "API management service with built-in request validation and throttling",
+        "useCase": "Define request models using JSON Schema in API Gateway. Enable request validation to automatically reject malformed requests. Implement rate limiting to prevent abuse.",
+        "documentationUrl": "https://aws.amazon.com/api-gateway/"
+      },
+      {
+        "name": "AWS Lambda Authorizers",
+        "description": "Custom authorization logic for API Gateway to validate tokens and enforce business rules",
+        "useCase": "Implement Lambda authorizers to validate JWT tokens, check user permissions, and enforce custom validation logic before requests reach your backend.",
+        "documentationUrl": "https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html"
+      }
+    ]
+  }
+}

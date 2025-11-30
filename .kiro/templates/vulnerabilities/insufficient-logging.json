@@ -1,0 +1,59 @@
+{
+  "id": "insufficient-logging-v1",
+  "owaspCategory": "A09:2021",
+  "type": "insufficient-logging",
+  "name": "Insufficient Security Logging",
+  "description": "Missing or inadequate logging of security events",
+  "severity": "medium",
+  "difficultyRange": {
+    "min": 3,
+    "max": 6
+  },
+  "codePattern": {
+    "vulnerablePattern": "const login = (user, pass) => { if (auth(user, pass)) return token; }",
+    "fixPattern": "const login = (user, pass) => { logger.info('Login attempt', { user }); if (auth(user, pass)) { logger.info('Login success', { user }); return token; } logger.warn('Login failed', { user }); }"
+  },
+  "hints": {
+    "easy": [
+      "Look for authentication functions without logging",
+      "Check if security events (login, logout, access denied) are logged",
+      "Search for error handling without logging"
+    ],
+    "hard": [
+      "Examine critical security operations",
+      "Look for missing audit trails",
+      "Check if sensitive operations are logged with sufficient context"
+    ]
+  },
+  "educationalContent": {
+    "analogy": "Insufficient logging is like a security camera that's turned off - when something bad happens, you have no evidence! Proper logging is your security footage that helps you investigate incidents.",
+    "realWorldImpact": "The 2013 Target breach went undetected for weeks due to insufficient logging and monitoring. Attackers stole 40 million credit cards. Proper logging could have detected the breach much earlier.",
+    "preventionTip": "Log all security-relevant events: authentication attempts, authorization failures, input validation failures, and access to sensitive data. Include context (user, timestamp, IP) but never log sensitive data like passwords.",
+    "awsServices": [
+      {
+        "name": "AWS CloudTrail",
+        "description": "Log all API calls and user activity across your AWS account for audit and compliance",
+        "useCase": "Enable CloudTrail to automatically log all AWS API calls. Use CloudTrail Insights to detect unusual activity. Store logs in S3 with encryption and lifecycle policies.",
+        "documentationUrl": "https://aws.amazon.com/cloudtrail/"
+      },
+      {
+        "name": "Amazon CloudWatch Logs",
+        "description": "Centralize application and security logs with real-time monitoring and alerting",
+        "useCase": "Send application logs to CloudWatch Logs. Create metric filters to track security events. Set up alarms for suspicious patterns like repeated login failures.",
+        "documentationUrl": "https://aws.amazon.com/cloudwatch/"
+      },
+      {
+        "name": "AWS Security Hub",
+        "description": "Aggregate security findings and compliance checks across AWS services",
+        "useCase": "Security Hub collects findings from CloudTrail, GuardDuty, Inspector, and other services. Get a unified view of your security posture and compliance status.",
+        "documentationUrl": "https://aws.amazon.com/security-hub/"
+      },
+      {
+        "name": "Amazon GuardDuty",
+        "description": "Threat detection using machine learning on logs and network activity",
+        "useCase": "GuardDuty analyzes CloudTrail logs, VPC Flow Logs, and DNS logs to detect threats. It can identify compromised instances, reconnaissance, and data exfiltration attempts.",
+        "documentationUrl": "https://aws.amazon.com/guardduty/"
+      }
+    ]
+  }
+}

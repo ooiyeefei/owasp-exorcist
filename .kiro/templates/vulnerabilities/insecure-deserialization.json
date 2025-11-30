@@ -1,0 +1,53 @@
+{
+  "id": "insecure-deserialization-v1",
+  "owaspCategory": "A08:2021",
+  "type": "insecure-deserialization",
+  "name": "Insecure Deserialization",
+  "description": "Unsafe JSON parsing or object reconstruction without validation",
+  "severity": "high",
+  "difficultyRange": {
+    "min": 5,
+    "max": 8
+  },
+  "codePattern": {
+    "vulnerablePattern": "const data = JSON.parse(userInput); // No validation",
+    "fixPattern": "const schema = z.object({ ... }); const data = schema.parse(JSON.parse(userInput));"
+  },
+  "hints": {
+    "easy": [
+      "Look for JSON.parse() calls with user input",
+      "Check if deserialized data is validated against a schema",
+      "Search for object reconstruction without type checking"
+    ],
+    "hard": [
+      "Examine how external data is parsed and used",
+      "Look for missing schema validation after deserialization",
+      "Check if deserialized objects are used in sensitive operations"
+    ]
+  },
+  "educationalContent": {
+    "analogy": "Insecure deserialization is like accepting a package without checking what's inside - it could be a gift or a bomb! Schema validation is like having an X-ray scanner at the door.",
+    "realWorldImpact": "In 2017, Apache Struts deserialization vulnerability led to the Equifax breach. Deserialization attacks can lead to remote code execution, making them extremely dangerous.",
+    "preventionTip": "Always validate deserialized data against a strict schema. Use libraries like Zod, Yup, or io-ts for runtime type checking. Never deserialize data from untrusted sources without validation.",
+    "awsServices": [
+      {
+        "name": "AWS Lambda",
+        "description": "Isolate deserialization in sandboxed Lambda environments with limited permissions",
+        "useCase": "Perform deserialization in Lambda functions with minimal IAM permissions. If malicious code executes, it's contained within the Lambda sandbox with limited access to resources.",
+        "documentationUrl": "https://aws.amazon.com/lambda/"
+      },
+      {
+        "name": "Amazon API Gateway",
+        "description": "Validate request schemas before data reaches your application",
+        "useCase": "Define JSON Schema models in API Gateway to validate request bodies. API Gateway will reject requests that don't match the schema before they reach your Lambda functions.",
+        "documentationUrl": "https://aws.amazon.com/api-gateway/"
+      },
+      {
+        "name": "Amazon CloudWatch",
+        "description": "Monitor for suspicious deserialization patterns and anomalies",
+        "useCase": "Set up CloudWatch alarms for unusual deserialization errors or patterns. Use CloudWatch Logs Insights to analyze deserialization attempts and detect attacks.",
+        "documentationUrl": "https://aws.amazon.com/cloudwatch/"
+      }
+    ]
+  }
+}
