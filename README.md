@@ -908,7 +908,64 @@ Built for **Kiroween Hackathon 2025**, showcasing:
 
 ## 🤝 Contributing
 
-Want to add more vulnerability templates? Check out `.kiro/templates/vulnerabilities/README.md` for the template format!
+We welcome contributions! Whether you want to add new vulnerability templates, improve documentation, or enhance the game experience, we'd love your help.
+
+### 📖 Comprehensive Documentation for Contributors
+
+To make this system maintainable and easy to contribute to, we've created extensive documentation:
+
+1. **[Template Design Rules](.kiro/steering/vulnerability-template-rules.md)** (3,000+ words)
+   - Pattern contamination prevention guidelines
+   - Template design checklist
+   - Detection best practices
+   - Quick reference table
+   - Common pitfalls and how to avoid them
+
+2. **[Template Checklist](.kiro/templates/vulnerabilities/TEMPLATE_CHECKLIST.md)**
+   - Quick reference for developers
+   - Pre-submission checklist
+   - Testing commands
+   - Pattern naming guidelines
+
+3. **[Technical Documentation](.kiro/docs/pattern-contamination-fix.md)**
+   - Problem analysis and solution
+   - Implementation details
+   - Testing recommendations
+   - Lessons learned
+
+4. **[Improvements Summary](.kiro/docs/IMPROVEMENTS_SUMMARY.md)**
+   - High-level overview
+   - Impact assessment
+   - Metrics and results
+   - Future recommendations
+
+### 🎯 How to Contribute a New Vulnerability Template
+
+1. **Read the guidelines**: Start with [Template Design Rules](.kiro/steering/vulnerability-template-rules.md)
+2. **Use the checklist**: Follow [Template Checklist](.kiro/templates/vulnerabilities/TEMPLATE_CHECKLIST.md)
+3. **Create your template**: Add a new JSON file in `.kiro/templates/vulnerabilities/`
+4. **Test it**: Run `node .kiro/hooks/start-game-dynamic.cjs easy` to validate
+5. **Submit a PR**: Include test results and documentation
+
+### 📋 Template Format
+
+See `.kiro/templates/vulnerabilities/README.md` for the complete template format and examples.
+
+### 🐛 Found a Bug?
+
+1. Check the [Technical Documentation](.kiro/docs/pattern-contamination-fix.md) for known issues
+2. Open an issue with reproduction steps
+3. Include your Kiro version and Node version
+
+### 💡 Have an Idea?
+
+Open an issue to discuss:
+- New vulnerability types
+- UI/UX improvements
+- Educational content enhancements
+- AWS service recommendations
+
+**Anyone can now contribute new vulnerability templates without breaking the system!** The automated validation and comprehensive documentation ensure quality and consistency.
 
 ## 📜 License
 
